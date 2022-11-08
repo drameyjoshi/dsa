@@ -5,6 +5,11 @@
 static int INIT_CAPACITY = 64;
 static int INCREMENT_BY = 2;
 
+int is_empty(const struct int_stack *sp)
+{
+    return (sp->current > 0) ? 0 : 1;
+}
+
 struct int_stack *create()
 {
     struct int_stack *sp = (struct int_stack *)malloc(sizeof(struct int_stack));
@@ -65,14 +70,6 @@ int pop(struct int_stack *sp, int *val)
             *val = sp->storage[--sp->current];
             success = 1;
         }
-        else
-        {
-            val = (int *)NULL;
-        }
-    }
-    else
-    {
-        val = (int *)NULL;
     }
 
     return success;

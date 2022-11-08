@@ -9,7 +9,8 @@ struct int_stack
 };
 
 struct int_stack *create();
-int destroy(struct int_stack *stack_ptr);
-int push(struct int_stack *stack_ptr, int n);
-int pop(struct int_stack *stack_ptr, int *val);
+int destroy(struct int_stack *sp);
+int push(struct int_stack *sp, int n);
+int pop(struct int_stack *sp, int *val);
+int is_empty(const struct int_stack *sp);
 #endif

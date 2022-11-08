@@ -21,7 +21,6 @@ void test_push_pop(int max_nums)
 
     int inputs[max_nums];
     int i;
-/*    int *val = (int *)malloc(sizeof(int)); */
     int val;
     int success;
 

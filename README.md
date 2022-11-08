@@ -18,4 +18,7 @@ making the braces redundant.
 * I start with the simplest functions. The first version of my logger is not
 at all a general purpose logging library but it suffices for my purpose. I may
 enhance it later if a need arises.
+* The first examples of my data structures will take integer data. I will 
+generalise the implementations later.
+* I run <code>valgrind --tool=memcheck</code> to find memory leaks.
 

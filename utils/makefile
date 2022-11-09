@@ -10,11 +10,12 @@ all: $(MAIN)
 
 $(MAIN): $(OBJS)
 	gcc $(CLFAGS) -o $(MAIN) $(OBJS)
+	ar rcs libutils.a logger.o
 
 .c.o:
 	gcc $(CLFAGS) -c $< -o $@
 
-logger.o:
+logger.o: logger.c logger.h
 	gcc -c $(CFLAGS) logger.c
 
 clean:

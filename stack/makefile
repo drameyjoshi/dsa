@@ -4,18 +4,23 @@ SRCS = stack.c test_stack.c
 
 OBJS = $(SRCS:.c=.o)
 
+LFLAGS = -L../utils
+
+HFLAGS = -I../utils
+
+LIBS = -lutils
+
+HEADERS = stack.h
+
 MAIN = test_stack
 
 all: $(MAIN)
 
 $(MAIN): $(OBJS)
-	gcc $(CLFAGS) -o $(MAIN) $(OBJS)
+	gcc $(CLFAGS) $(HFLAGS) $(LFLAGS) -o $(MAIN) $(OBJS) $(LIBS) 
 
 .c.o:
-	gcc $(CLFAGS) -c $< -o $@
-
-stack.o: stack.c stack.h
-	gcc -c $(CFLAGS) stack.c
+	gcc $(CLFAGS) $(HFLAGS) -c $< -o $@
 
 clean:
 	rm -f *.o *~ $(MAIN)

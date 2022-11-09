@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "logger.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -13,6 +14,7 @@ void test_create_1()
     assert(sp1->current == 0);
 
     destroy(sp1);
+    info("Passed %s", __func__);
 }
 
 void test_push_pop(int max_nums)
@@ -45,6 +47,7 @@ void test_push_pop(int max_nums)
     assert(success == 1);
 
     destroy(sp1);
+    info("Passed %s", __func__);
 }
 
 void happy_path_1()
@@ -74,6 +77,7 @@ void null_object()
 
     rv = pop(sp, &val); /* Pop from empty stack.*/
     assert(rv == 1);
+    info("Passed %s", __func__);
 }
 
 int main()

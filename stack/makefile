@@ -16,6 +16,8 @@ MAIN = test_stack
 
 all: $(MAIN)
 
+.PHONY: depend clean
+
 $(MAIN): $(OBJS)
 	gcc $(CLFAGS) $(HFLAGS) $(LFLAGS) -o $(MAIN) $(OBJS) $(LIBS) 
 

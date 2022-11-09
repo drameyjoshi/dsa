@@ -8,6 +8,8 @@ MAIN = test_logger
 
 all: $(MAIN)
 
+.PHONY: depend clean
+
 $(MAIN): $(OBJS)
 	gcc $(CLFAGS) -o $(MAIN) $(OBJS)
 	ar rcs libutils.a logger.o

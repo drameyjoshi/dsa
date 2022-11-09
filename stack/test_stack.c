@@ -58,8 +58,22 @@ void happy_path_2()
     test_push_pop(5000);
 }
 
+void null_object()
+{
+    int rv = push(NULL, 3);
+    assert(rv == 1);
+
+    int val;
+    rv = pop(NULL, &val);
+    assert(rv == 1);
+
+    rv = destroy(NULL);
+    assert(rv == 1);
+}
+
 int main()
 {
     happy_path_1();
     happy_path_2();
+    null_object();
 }

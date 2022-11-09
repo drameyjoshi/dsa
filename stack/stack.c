@@ -34,13 +34,14 @@ struct int_stack *create()
 
 int push(struct int_stack *sp, int n)
 {
-    int success = 0;
+    int success = 1;
 
     if (sp != NULL)
     {
         if (sp->current < sp->capacity)
         {
             sp->storage[sp->current++] = n;
+            success = 0;
         }
         else
         {
@@ -51,7 +52,7 @@ int push(struct int_stack *sp, int n)
                 sp->capacity = INCREMENT_BY * sp->capacity;
                 sp->storage = newptr;
                 sp->storage[sp->current++] = n;
-                success = 1;
+                success = 0;
             }
         }
     }
@@ -61,14 +62,14 @@ int push(struct int_stack *sp, int n)
 
 int pop(struct int_stack *sp, int *val)
 {
-    int success = 0;
+    int success = 1;
 
     if (sp != NULL)
     {
         if (sp->current > 0)
         {
             *val = sp->storage[--sp->current];
-            success = 1;
+            success = 0;
         }
     }
 
@@ -85,6 +86,7 @@ int destroy(struct int_stack *sp)
         {
             free(sp->storage);
             free(sp);
+            success = 0;
         }
     }
 

@@ -61,13 +61,18 @@ void happy_path_2()
 void null_object()
 {
     int rv = push(NULL, 3);
+    int val;
+    struct int_stack *sp = create();
+
     assert(rv == 1);
 
-    int val;
     rv = pop(NULL, &val);
     assert(rv == 1);
 
     rv = destroy(NULL);
+    assert(rv == 1);
+
+    rv = pop(sp, &val); /* Pop from empty stack.*/
     assert(rv == 1);
 }
 

@@ -36,13 +36,13 @@ void test_push_pop(int max_nums)
     {
         assert(sp1->current == i + 1);
         success = pop(sp1, &val);
-        assert(success == 1);
+        assert(success == 0);
         assert(inputs[i] == val);
         assert(sp1->current == i);
     }
 
     success = pop(sp1, &val);
-    assert(success == 0);
+    assert(success == 1);
 
     destroy(sp1);
 }

@@ -13,8 +13,7 @@ encourages conciseness. However, I have usually favoured a simple structure
 over a shorter one.
 * I prefer to use a brace even in cases where a block has a single statement
 making the braces redundant.
-* I use the <code>clang-format</code> code formatter with the option <code>
---style=Webkit</code> because it makes the code easier to read.
+* I use the <code>indent -linux *.[ch]</code> to format source code.
 * I start with the simplest functions. The first version of my logger is not
 at all a general purpose logging library but it suffices for my purpose. I may
 enhance it later if a need arises.

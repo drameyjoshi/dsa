@@ -26,7 +26,7 @@ clean:
 	rm -f $(OBJS) *~ $(MAIN)
 
 format:
-	clang-format -i --style=Microsoft *.c *.h
+	clang-format -i --style=Webkit *.c *.h
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^

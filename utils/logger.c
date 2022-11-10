@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 static volatile log_level_t curr = INFO;
-static FILE *lfp = NULL;
+static FILE* lfp = NULL;
 
 log_level_t set_logger_level(log_level_t lvl)
 {
@@ -14,25 +14,21 @@ log_level_t set_logger_level(log_level_t lvl)
     return prev;
 }
 
-void set_logfile(const char *fpath)
+void set_logfile(const char* fpath)
 {
-    FILE *fp = fopen(fpath, "a+");
-    if (fp != NULL)
-    {
+    FILE* fp = fopen(fpath, "a+");
+    if (fp != NULL) {
         lfp = fp;
-    }
-    else
-    {
+    } else {
         fprintf(stderr, "Unable to open %s for writing.\n", fpath);
     }
 }
 
-static char *get_name(log_level_t lvl)
+static char* get_name(log_level_t lvl)
 {
-    char *name;
+    char* name;
 
-    switch (lvl)
-    {
+    switch (lvl) {
     case TRACE:
         name = "TRACE";
         break;
@@ -56,12 +52,11 @@ static char *get_name(log_level_t lvl)
     return name;
 }
 
-void logmsg(log_level_t lvl, const char *fname, int lno, const char *fmt, ...)
+void logmsg(log_level_t lvl, const char* fname, int lno, const char* fmt, ...)
 {
-    FILE *fp = (lfp == NULL) ? stderr : lfp;
+    FILE* fp = (lfp == NULL) ? stderr : lfp;
 
-    if (lvl >= curr)
-    {
+    if (lvl >= curr) {
         va_list ap;
         fprintf(fp, "%s: %4d: %5s: ", fname, lno, get_name(lvl));
         va_start(ap, fmt);

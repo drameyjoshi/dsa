@@ -16,12 +16,9 @@ static int getch(void)
 
 static int ungetch(int c)
 {
-    if (bufp >= BUFSIZE)
-    {
+    if (bufp >= BUFSIZE) {
         error("%s: too many characters.", __func__);
-    }
-    else
-    {
+    } else {
         buffer[bufp++] = c;
     }
 }
@@ -30,8 +27,7 @@ static int skip_ws()
 {
     int c;
 
-    while ((c = getch()) == ' ' || c == '\t')
-    {
+    while ((c = getch()) == ' ' || c == '\t') {
         ; /* Move to the next character. */
     }
 
@@ -40,10 +36,9 @@ static int skip_ws()
 
 static void copy_upto(char token[], int startc, int endc)
 {
-    char *p = token;
+    char* p = token;
 
-    for (*p++ = startc; (*p++ = getch()) != endc;)
-    {
+    for (*p++ = startc; (*p++ = getch()) != endc;) {
         ;
     }
     *p = '\0';
@@ -52,36 +47,26 @@ static void copy_upto(char token[], int startc, int endc)
 int get_token(char token[])
 {
     int c;
-    char *p = token;
+    char* p = token;
 
     c = skip_ws();
 
-    if (c == '(')
-    {
+    if (c == '(') {
         copy_upto(token, c, ')');
         return PARENS;
-    }
-    else if (c == '[')
-    {
-        for (*p++ = c; (*p++ = getch()) != ']';)
-        {
+    } else if (c == '[') {
+        for (*p++ = c; (*p++ = getch()) != ']';) {
             ;
         }
-        *p = '\0';
         return BRACKETS;
-    }
-    else if (isalpha(c))
-    {
-        for (*p++ = c; isalnum(c = getch());)
-        {
+    } else if (isalpha(c)) {
+        for (*p++ = c; isalnum(c = getch());) {
             *p++ = c;
         }
         *p = '\0';
         ungetch(c);
         return NAME;
-    }
-    else
-    {
+    } else {
         return c;
     }
 }

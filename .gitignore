@@ -54,3 +54,5 @@ dkms.conf
 # Log files
 *.log
 test_*
+*.swp
+

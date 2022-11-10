@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 
-/* #define BUFSIZE (1024) */
+/*
+This is a modification of the code given in Kernighan and Ritchie's book
+'The C Programming Language' in section 5.12. It takes a symbolic description
+of a function and returns a valid C declaration.
+*/
 int main()
 {
     int type;

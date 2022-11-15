@@ -4,10 +4,11 @@
 /*
 One can create multiple instances of an integer stack.
 */
-struct int_stack {
-	unsigned int capacity;
-	int *storage;
-	unsigned int current;
+struct int_stack
+{
+    unsigned int capacity;
+    int *storage;
+    unsigned int current;
 };
 
 /*

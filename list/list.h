@@ -1,9 +1,10 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-struct int_sllist {
-	int data;
-	struct int_sllist *next;
+struct int_sllist
+{
+    int data;
+    struct int_sllist *next;
 };
 
 struct int_sllist *create(int n);

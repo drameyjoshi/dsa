@@ -28,7 +28,7 @@ clean:
 	rm -f *.o *~ $(MAIN)
 
 format:
-	indent -linux *.c *.h
+	clang-format -i --style=Microsoft *.c *.h
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^

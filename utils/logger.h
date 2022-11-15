@@ -1,12 +1,13 @@
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
-typedef enum {
-	TRACE,
-	DEBUG,
-	INFO,
-	WARN,
-	ERROR
+typedef enum
+{
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR
 } log_level_t;
 
 log_level_t set_logger_level(log_level_t lvl);

@@ -9,7 +9,7 @@ struct int_list
 
 struct int_list *create(int n);
 
-void destroy(struct int_list *lp);
+struct int_list *destroy(struct int_list *lp);
 
 struct int_list *add(int n, struct int_list *lp);
 

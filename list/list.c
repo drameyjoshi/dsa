@@ -17,7 +17,7 @@ struct int_list *create(int n)
     return lp;
 }
 
-void destroy(struct int_list *lp)
+struct int_list *destroy(struct int_list *lp)
 {
     while (lp != NULL)
     {
@@ -25,6 +25,8 @@ void destroy(struct int_list *lp)
         free(lp);
         lp = nlp;
     }
+
+    return NULL;
 }
 
 int find(int n, const struct int_list *lp)

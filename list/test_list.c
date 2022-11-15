@@ -30,7 +30,8 @@ void happy_path_1()
     assert(find(9, lp) != -1);
     assert(find(7, lp) != -1);
 
-    destroy(lp);
+    lp = destroy(lp);
+    assert(lp == NULL);
     info("Passed %s.", __func__);
 }
 
@@ -44,7 +45,8 @@ void unusual_path()
     lp = add(-1, lp);
     assert(lp != NULL);
 
-    destroy(lp);
+    lp = destroy(lp);
+    assert(lp == NULL);
     info("Passed %s.", __func__);
 }
 

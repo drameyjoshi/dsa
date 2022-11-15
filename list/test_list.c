@@ -6,7 +6,7 @@
 
 void happy_path_1()
 {
-    struct int_sllist *lp = create(0);
+    struct int_list *lp = create(0);
     int i;
     assert(lp != NULL);
     assert(len(lp) == 1);
@@ -34,7 +34,22 @@ void happy_path_1()
     info("Passed %s.", __func__);
 }
 
+void unusual_path()
+{
+    struct int_list *lp = NULL;
+    assert(len(lp) == 0);
+    assert(find(3, lp) == -1);
+    destroy(lp);
+
+    lp = add(-1, lp);
+    assert(lp != NULL);
+
+    destroy(lp);
+    info("Passed %s.", __func__);
+}
+
 int main()
 {
     happy_path_1();
+    unusual_path();
 }

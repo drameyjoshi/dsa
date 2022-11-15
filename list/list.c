@@ -4,9 +4,9 @@
 
 /* To do: Add logging. */
 
-struct int_sllist *create(int n)
+struct int_list *create(int n)
 {
-    struct int_sllist *lp = (struct int_sllist *)malloc(sizeof(struct int_sllist));
+    struct int_list *lp = (struct int_list *)malloc(sizeof(struct int_list));
 
     if (lp != NULL)
     {
@@ -17,17 +17,17 @@ struct int_sllist *create(int n)
     return lp;
 }
 
-void destroy(struct int_sllist *lp)
+void destroy(struct int_list *lp)
 {
     while (lp != NULL)
     {
-        struct int_sllist *nlp = lp->next;
+        struct int_list *nlp = lp->next;
         free(lp);
         lp = nlp;
     }
 }
 
-int find(int n, const struct int_sllist *lp)
+int find(int n, const struct int_list *lp)
 {
     int pos = -1;
     int found = 0;
@@ -46,9 +46,9 @@ int find(int n, const struct int_sllist *lp)
     return found > 0 ? pos : -1;
 }
 
-struct int_sllist *rem(int n, struct int_sllist *lp)
+struct int_list *rem(int n, struct int_list *lp)
 {
-    struct int_sllist *new = lp;
+    struct int_list *new = lp;
 
     if (lp != NULL)
     {
@@ -59,7 +59,7 @@ struct int_sllist *rem(int n, struct int_sllist *lp)
         }
         else
         {
-            struct int_sllist *prev = lp;
+            struct int_list *prev = lp;
             lp = lp->next;
             while (lp != NULL)
             {
@@ -81,9 +81,9 @@ struct int_sllist *rem(int n, struct int_sllist *lp)
     return new;
 }
 
-struct int_sllist *add(int n, struct int_sllist *lp)
+struct int_list *add(int n, struct int_list *lp)
 {
-    struct int_sllist *curr = lp;
+    struct int_list *curr = lp;
     if (lp == NULL)
     {
         lp = create(n);
@@ -107,7 +107,7 @@ struct int_sllist *add(int n, struct int_sllist *lp)
     return lp;
 }
 
-unsigned int len(const struct int_sllist *lp)
+unsigned int len(const struct int_list *lp)
 {
     int nelems = 0;
 

@@ -1,22 +1,22 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-struct int_sllist
+struct int_list
 {
     int data;
-    struct int_sllist *next;
+    struct int_list *next;
 };
 
-struct int_sllist *create(int n);
+struct int_list *create(int n);
 
-void destroy(struct int_sllist *lp);
+void destroy(struct int_list *lp);
 
-struct int_sllist *add(int n, struct int_sllist *lp);
+struct int_list *add(int n, struct int_list *lp);
 
-int find(int n, const struct int_sllist *lp);
+int find(int n, const struct int_list *lp);
 
-struct int_sllist *rem(int n, struct int_sllist *lp);
+struct int_list *rem(int n, struct int_list *lp);
 
-unsigned int len(const struct int_sllist *lp);
+unsigned int len(const struct int_list *lp);
 
 #endif

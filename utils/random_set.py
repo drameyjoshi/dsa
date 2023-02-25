@@ -18,7 +18,7 @@ def generate(a: int, b: int, n: int) -> List[int]:
     A list of randomly generated integers.
     """
     if a > b:
-        b = a
+        a, b = b, a
 
     if n > b - a + 1:
         n = b - a + 1

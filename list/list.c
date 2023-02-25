@@ -4,12 +4,11 @@
 
 /* To do: Add logging. */
 
-struct int_list *create(int n)
+struct int_list* create(int n)
 {
-    struct int_list *lp = (struct int_list *)malloc(sizeof(struct int_list));
+    struct int_list* lp = (struct int_list*)malloc(sizeof(struct int_list));
 
-    if (lp != NULL)
-    {
+    if (lp != NULL) {
         lp->data = n;
         lp->next = NULL;
     }
@@ -17,11 +16,10 @@ struct int_list *create(int n)
     return lp;
 }
 
-struct int_list *destroy(struct int_list *lp)
+struct int_list* destroy(struct int_list* lp)
 {
-    while (lp != NULL)
-    {
-        struct int_list *nlp = lp->next;
+    while (lp != NULL) {
+        struct int_list* nlp = lp->next;
         free(lp);
         lp = nlp;
     }
@@ -29,16 +27,14 @@ struct int_list *destroy(struct int_list *lp)
     return NULL;
 }
 
-int find(int n, const struct int_list *lp)
+int find(int n, const struct int_list* lp)
 {
     int pos = -1;
     int found = 0;
 
-    while (lp != NULL)
-    {
+    while (lp != NULL) {
         ++pos;
-        if (n == lp->data)
-        {
+        if (n == lp->data) {
             found = 1;
             break;
         }
@@ -48,31 +44,23 @@ int find(int n, const struct int_list *lp)
     return found > 0 ? pos : -1;
 }
 
-struct int_list *rem(int n, struct int_list *lp)
+struct int_list* rem(int n, struct int_list* lp)
 {
-    struct int_list *new = lp;
+    struct int_list* new = lp;
 
-    if (lp != NULL)
-    {
-        if (lp->data == n)
-        {
+    if (lp != NULL) {
+        if (lp->data == n) {
             new = lp->next;
             free(lp);
-        }
-        else
-        {
-            struct int_list *prev = lp;
+        } else {
+            struct int_list* prev = lp;
             lp = lp->next;
-            while (lp != NULL)
-            {
-                if (lp->data == n)
-                {
+            while (lp != NULL) {
+                if (lp->data == n) {
                     prev->next = lp->next;
                     free(lp);
                     break;
-                }
-                else
-                {
+                } else {
                     prev = lp;
                     lp = lp->next;
                 }
@@ -83,24 +71,17 @@ struct int_list *rem(int n, struct int_list *lp)
     return new;
 }
 
-struct int_list *add(int n, struct int_list *lp)
+struct int_list* add(int n, struct int_list* lp)
 {
-    struct int_list *curr = lp;
-    if (lp == NULL)
-    {
+    struct int_list* curr = lp;
+    if (lp == NULL) {
         lp = create(n);
-    }
-    else
-    {
-        while (1)
-        {
-            if (curr->next == NULL)
-            {
+    } else {
+        while (1) {
+            if (curr->next == NULL) {
                 curr->next = create(n);
                 break;
-            }
-            else
-            {
+            } else {
                 curr = curr->next;
             }
         }
@@ -109,12 +90,11 @@ struct int_list *add(int n, struct int_list *lp)
     return lp;
 }
 
-unsigned int len(const struct int_list *lp)
+unsigned int len(const struct int_list* lp)
 {
     int nelems = 0;
 
-    while (lp != NULL)
-    {
+    while (lp != NULL) {
         ++nelems;
         lp = lp->next;
     }

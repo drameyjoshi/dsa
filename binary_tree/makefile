@@ -1,6 +1,6 @@
-CFLAGS = -g -Wall -ansi
+CFLAGS = -g -ggdb -Wall -ansi
 
-SRCS = list.c test_list.c
+SRCS = tree.c test_tree.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -10,9 +10,9 @@ HFLAGS = -I../utils
 
 LIBS = -lutils
 
-HEADERS = list.h
+HEADERS = tree.h
 
-MAIN = test_list
+MAIN = test_tree
 
 all: $(MAIN)
 
@@ -28,7 +28,7 @@ clean:
 	rm -f *.o *~ $(MAIN)
 
 format:
-	clang-format -i --style=Microsoft *.c *.h
+	clang-format -i --style=Webkit *.c *.h
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^

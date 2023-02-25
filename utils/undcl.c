@@ -17,28 +17,19 @@ int main()
     char token[BUFSIZE];
     char out[BUFSIZE];
 
-    while (get_token(token) != EOF)
-    {
+    while (get_token(token) != EOF) {
         /* For each line of input. */
         strncpy(out, token, maxcpy);
-        while ((type = get_token(token)) != '\n')
-        {
-            if (type == PARENS || type == BRACKETS)
-            {
+        while ((type = get_token(token)) != '\n') {
+            if (type == PARENS || type == BRACKETS) {
                 strcat(out, token);
-            }
-            else if (type == '*')
-            {
+            } else if (type == '*') {
                 sprintf(temp, "(*%s)", out);
                 strncpy(out, temp, maxcpy);
-            }
-            else if (type == NAME)
-            {
+            } else if (type == NAME) {
                 sprintf(temp, "%s %s", token, out);
                 strncpy(out, temp, maxcpy);
-            }
-            else
-            {
+            } else {
                 printf("Invalid input at %s\n", token);
             }
         }

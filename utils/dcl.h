@@ -1,8 +1,7 @@
 #ifndef _DCL_H_
 #define _DCL_H_
 
-typedef enum
-{
+typedef enum {
     NAME,
     PARENS,
     BRACKETS

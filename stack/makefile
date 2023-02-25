@@ -19,10 +19,10 @@ all: $(MAIN)
 .PHONY: depend clean
 
 $(MAIN): $(OBJS)
-	gcc $(CLFAGS) $(HFLAGS) $(LFLAGS) -o $(MAIN) $(OBJS) $(LIBS) 
+	gcc $(CFLAGS) $(HFLAGS) $(LFLAGS) -o $(MAIN) $(OBJS) $(LIBS) 
 
 .c.o:
-	gcc $(CLFAGS) $(HFLAGS) -c $< -o $@
+	gcc $(CFLAGS) $(HFLAGS) -c $< -o $@
 
 clean:
 	rm -f *.o *~ $(MAIN)

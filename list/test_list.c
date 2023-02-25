@@ -6,7 +6,7 @@
 
 void happy_path_1()
 {
-    struct int_list *lp = create(0);
+    struct int_list* lp = create(0);
     int i;
     assert(lp != NULL);
     assert(len(lp) == 1);
@@ -37,7 +37,7 @@ void happy_path_1()
 
 void unusual_path()
 {
-    struct int_list *lp = NULL;
+    struct int_list* lp = NULL;
     assert(len(lp) == 0);
     assert(find(3, lp) == -1);
     destroy(lp);

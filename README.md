@@ -1,5 +1,5 @@
 # dsa
-Data structures and algorithms in C
+Data structures and algorithms in C and Python.
 
 I want to refresh what I learnt about data structures and algorithms several 
 years ago. I thought that the best way to do that would be write basic data 
@@ -23,3 +23,5 @@ generalise the implementations later.
 * I run <code>valgrind --tool=memcheck --leak-check=full -s</code> to find 
 memory leaks.
 
+It is often easy to write an algorithm first in Python and then translate it
+to C. A few algorithms are therefore in Python notebooks.

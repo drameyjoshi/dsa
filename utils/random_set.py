@@ -34,9 +34,9 @@ def main(argv):
         description='Generate a set of randomly chosen integers',
         epilog='')
 
-    parser.add_argument('-m', '--min')
-    parser.add_argument('-M', '--max')
-    parser.add_argument('-s', '--size')
+    parser.add_argument('-m', '--min', help='lowest random number.')
+    parser.add_argument('-M', '--max', help='highest random number.')
+    parser.add_argument('-s', '--size', help='# integers.')
 
     args = parser.parse_args()
     low = int(args.min)

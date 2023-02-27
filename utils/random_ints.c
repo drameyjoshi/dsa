@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     time_t now = time(NULL);
     int seed = (int)(now);
@@ -22,13 +22,19 @@ int main(int argc, char *argv[])
     }
 
     while ((opt = getopt(argc, argv, "n:m:M:")) != -1) {
-        switch(opt) {
-            case 'n': n_elems = atoi(optarg);
-                      args_ok = 1;
-                      break;
-            case 'm': min = atoi(optarg); break;
-            case 'M': max = atoi(optarg); break;
-            default: break;
+        switch (opt) {
+        case 'n':
+            n_elems = atoi(optarg);
+            args_ok = 1;
+            break;
+        case 'm':
+            min = atoi(optarg);
+            break;
+        case 'M':
+            max = atoi(optarg);
+            break;
+        default:
+            break;
         }
     }
 
@@ -49,7 +55,7 @@ int main(int argc, char *argv[])
         int s = r;
 
         if (max != RAND_MAX) {
-            float f = ((1.0 * r)/RAND_MAX) * range;
+            float f = ((1.0 * r) / RAND_MAX) * range;
             s = min + (int)f;
         }
         printf("%d ", s);
@@ -70,4 +76,3 @@ void show_help_and_exit()
 
     exit(EXIT_FAILURE);
 }
-

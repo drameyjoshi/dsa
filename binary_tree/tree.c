@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_preorder(const struct int_tree* tp);
-void print_inorder(const struct int_tree* tp);
-void print_postorder(const struct int_tree* tp);
+void print_preorder(const struct int_tree* tp, int *index, int *ordering);
+void print_inorder(const struct int_tree* tp, int *index, int *ordering);
+void print_postorder(const struct int_tree* tp, int *index, int *ordering);
 void count(const struct int_tree* tp, unsigned int* pn_elements);
 
 struct int_tree* create(int n)
@@ -138,42 +138,46 @@ struct int_tree* rem(int n, struct int_tree* tp)
     return root;
 }
 
-void print(traversal_t traversal, const struct int_tree* tp)
+int *print(traversal_t traversal, const struct int_tree* tp)
 {
+    int *ordering = (int *)calloc(len(tp), sizeof(int));
+    int index = 0;
+
     if (traversal == PREORDER) {
-        print_preorder(tp);
+        print_preorder(tp, &index, ordering);
     } else if (traversal == INORDER) {
-        print_inorder(tp);
+        print_inorder(tp, &index, ordering);
     } else {
-        print_postorder(tp);
+        print_postorder(tp, &index, ordering);
     }
-    printf("\n");
+
+    return ordering;
 }
 
-void print_preorder(const struct int_tree* tp)
+void print_preorder(const struct int_tree* tp, int *index, int *ordering)
 {
     if (tp != NULL) {
-        printf("%d, ", tp->data);
-        print_preorder(tp->left);
-        print_preorder(tp->right);
-    }
-}
-
-void print_inorder(const struct int_tree* tp)
-{
-    if (tp != NULL) {
-        print_inorder(tp->left);
-        printf("%d, ", tp->data);
-        print_inorder(tp->right);
+        ordering[(*index)++] = tp->data;
+        print_preorder(tp->left, index, ordering);
+        print_preorder(tp->right, index, ordering);
     }
 }
 
-void print_postorder(const struct int_tree* tp)
+void print_inorder(const struct int_tree* tp, int *index, int *ordering)
 {
     if (tp != NULL) {
-        print_postorder(tp->left);
-        print_postorder(tp->right);
-        printf("%d, ", tp->data);
+        print_inorder(tp->left, index, ordering);
+        ordering[(*index)++] = tp->data;
+        print_inorder(tp->right, index, ordering);
+    }
+}
+
+void print_postorder(const struct int_tree* tp, int *index, int *ordering)
+{
+    if (tp != NULL) {
+        print_postorder(tp->left, index, ordering);
+        print_postorder(tp->right, index, ordering);
+        ordering[(*index)++] = tp->data;
     }
 }
 

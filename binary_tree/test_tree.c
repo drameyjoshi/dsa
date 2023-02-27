@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void happy_path_1()
 {
@@ -43,6 +44,20 @@ void happy_path_2()
     destroy(root);
 }
 
+void printarray(int *ordering, int size) 
+{
+    int i;
+
+    for (i = 0; i < size; i++) {
+        if (i == size - 1) {
+            printf("%d ", ordering[i]);
+        } else {
+            printf("%d, ", ordering[i]);
+        }
+    }
+    printf("\n");
+}
+
 void happy_path_3()
 {
     struct int_tree *root = create(11);
@@ -54,14 +69,20 @@ void happy_path_3()
     }
 
     printf("Printing preorder: ");
-    print(PREORDER, root);
+    int *preorder = print(PREORDER, root);
+    printarray(preorder, 10);
 
     printf("Printing inorder: ");
-    print(INORDER, root);
+    int *inorder = print(INORDER, root);
+    printarray(inorder, 10);
 
     printf("Printing postorder: ");
-    print(POSTORDER, root);
+    int *postorder = print(POSTORDER, root);
+    printarray(postorder, 10);
 
+    free(preorder);
+    free(inorder);
+    free(postorder);
     destroy(root);
 }
 

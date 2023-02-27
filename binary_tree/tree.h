@@ -23,5 +23,5 @@ struct int_tree* rem(int n, struct int_tree* tp);
 
 unsigned int len(const struct int_tree* tp);
 
-void print(traversal_t traversal, const struct int_tree* tp);
+int *print(traversal_t traversal, const struct int_tree* tp);
 #endif

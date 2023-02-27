@@ -3,18 +3,75 @@
 #include <stdlib.h>
 #include <time.h>
 
+struct args {
+    int n_elems;
+    int min;
+    int max;
+};
+
 int main(int argc, char* argv[])
+{
+    struct args parsed_args;
+    int* numbers = NULL;
+
+    void init_args(struct args * pargs);
+    void read_options(int argc, char* argv[], struct args* pargs);
+    void generate(struct args * pargs, int* numbers);
+    void show(int *numbers, int n_elems);
+
+    init_args(&parsed_args);
+    read_options(argc, argv, &parsed_args);
+    numbers = (int*)calloc(parsed_args.n_elems, sizeof(int));
+    generate(&parsed_args, numbers);
+    show(numbers, parsed_args.n_elems);
+    free(numbers);
+
+    exit(EXIT_SUCCESS);
+}
+
+void show(int *numbers, int n_elems)
+{
+    int i;
+
+    for (i = 0; i < n_elems; i++) {
+        if (i == n_elems - 1) {
+            printf("%d\n", numbers[i]);
+        } else {
+            printf("%d, ", numbers[i]);
+        }
+    }
+}
+
+void init_args(struct args* pargs)
+{
+    pargs->n_elems = 0;
+    pargs->min = 0;
+    pargs->max = RAND_MAX;
+}
+
+void generate(struct args* pargs, int* numbers)
 {
     time_t now = time(NULL);
     int seed = (int)(now);
-    int n_elems = 0;
-    int min = 0;
-    int max = RAND_MAX;
+    int range = (pargs->max) - (pargs->min);
     int i;
-    int opt;
-    int args_ok = 0;
-    int range;
 
+    for (i = 0; i < pargs->n_elems; i++) {
+        int r = rand_r(&seed);
+        int s = r;
+
+        if (pargs->max != RAND_MAX) {
+            float f = ((1.0 * r) / RAND_MAX) * range;
+            s = pargs->min + (int)f;
+        }
+        numbers[i] = s;
+    }
+}
+
+void read_options(int argc, char* argv[], struct args* pargs)
+{
+    int args_ok = 0;
+    int opt;
     void show_help_and_exit();
 
     if (argc < 2) {
@@ -24,14 +81,14 @@ int main(int argc, char* argv[])
     while ((opt = getopt(argc, argv, "n:m:M:")) != -1) {
         switch (opt) {
         case 'n':
-            n_elems = atoi(optarg);
+            pargs->n_elems = atoi(optarg);
             args_ok = 1;
             break;
         case 'm':
-            min = atoi(optarg);
+            pargs->min = atoi(optarg);
             break;
         case 'M':
-            max = atoi(optarg);
+            pargs->max = atoi(optarg);
             break;
         default:
             break;
@@ -42,27 +99,11 @@ int main(int argc, char* argv[])
         show_help_and_exit();
     }
 
-    if (max < min) {
-        int temp = max;
-        max = min;
-        min = max;
+    if (pargs->max < pargs->min) {
+        int temp = pargs->max;
+        pargs->max = pargs->min;
+        pargs->min = pargs->max;
     }
-
-    range = max - min;
-
-    for (i = 0; i < n_elems; i++) {
-        int r = rand_r(&seed);
-        int s = r;
-
-        if (max != RAND_MAX) {
-            float f = ((1.0 * r) / RAND_MAX) * range;
-            s = min + (int)f;
-        }
-        printf("%d ", s);
-    }
-    printf("\n");
-
-    exit(EXIT_SUCCESS);
 }
 
 void show_help_and_exit()

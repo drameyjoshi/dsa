@@ -44,6 +44,9 @@ def main(argv):
     nelems = int(args.size)
 
     L = generate(low, high, nelems)
+    for n in range(3):
+        random.shuffle(L)
+
     print(L)
 
 if __name__ == '__main__':

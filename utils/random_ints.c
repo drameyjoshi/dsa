@@ -9,26 +9,6 @@ struct args {
     int max;
 };
 
-int main(int argc, char* argv[])
-{
-    struct args parsed_args;
-    int* numbers = NULL;
-
-    void init_args(struct args * pargs);
-    void read_options(int argc, char* argv[], struct args* pargs);
-    void generate(struct args * pargs, int* numbers);
-    void show(int *numbers, int n_elems);
-
-    init_args(&parsed_args);
-    read_options(argc, argv, &parsed_args);
-    numbers = (int*)calloc(parsed_args.n_elems, sizeof(int));
-    generate(&parsed_args, numbers);
-    show(numbers, parsed_args.n_elems);
-    free(numbers);
-
-    exit(EXIT_SUCCESS);
-}
-
 void show(int *numbers, int n_elems)
 {
     int i;
@@ -56,8 +36,9 @@ void generate(struct args* pargs, int* numbers)
     int range = (pargs->max) - (pargs->min);
     int i;
 
+    srand(seed);
     for (i = 0; i < pargs->n_elems; i++) {
-        int r = rand_r(&seed);
+        int r = rand();
         int s = r;
 
         if (pargs->max != RAND_MAX) {
@@ -102,7 +83,7 @@ void read_options(int argc, char* argv[], struct args* pargs)
     if (pargs->max < pargs->min) {
         int temp = pargs->max;
         pargs->max = pargs->min;
-        pargs->min = pargs->max;
+        pargs->min = temp;
     }
 }
 
@@ -117,3 +98,19 @@ void show_help_and_exit()
 
     exit(EXIT_FAILURE);
 }
+
+int main(int argc, char* argv[])
+{
+    struct args parsed_args;
+    int* numbers = NULL;
+
+    init_args(&parsed_args);
+    read_options(argc, argv, &parsed_args);
+    numbers = (int*)calloc(parsed_args.n_elems, sizeof(int));
+    generate(&parsed_args, numbers);
+    show(numbers, parsed_args.n_elems);
+    free(numbers);
+
+    exit(EXIT_SUCCESS);
+}
+

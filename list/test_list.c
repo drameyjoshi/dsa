@@ -6,31 +6,31 @@
 
 void happy_path_1()
 {
-    struct int_list* lp = create(0);
+    struct int_list* lp = create_list(0);
     int i;
     assert(lp != NULL);
-    assert(len(lp) == 1);
+    assert(len_of_list(lp) == 1);
 
     for (i = 1; i < 10; ++i)
-        lp = add(i, lp);
+        lp = add_to_list(i, lp);
 
-    assert(len(lp) == 10);
-    assert(find(3, lp) != -1);
-    assert(find(5, lp) != -1);
-    assert(find(1, lp) != -1);
-    assert(find(9, lp) != -1);
-    assert(find(7, lp) != -1);
+    assert(len_of_list(lp) == 10);
+    assert(find_in_list(3, lp) != -1);
+    assert(find_in_list(5, lp) != -1);
+    assert(find_in_list(1, lp) != -1);
+    assert(find_in_list(9, lp) != -1);
+    assert(find_in_list(7, lp) != -1);
 
-    lp = rem(6, lp);
-    assert(len(lp) == 9);
-    assert(find(6, lp) == -1);
-    assert(find(3, lp) != -1);
-    assert(find(5, lp) != -1);
-    assert(find(1, lp) != -1);
-    assert(find(9, lp) != -1);
-    assert(find(7, lp) != -1);
+    lp = rem_from_list(6, lp);
+    assert(len_of_list(lp) == 9);
+    assert(find_in_list(6, lp) == -1);
+    assert(find_in_list(3, lp) != -1);
+    assert(find_in_list(5, lp) != -1);
+    assert(find_in_list(1, lp) != -1);
+    assert(find_in_list(9, lp) != -1);
+    assert(find_in_list(7, lp) != -1);
 
-    lp = destroy(lp);
+    lp = destroy_list(lp);
     assert(lp == NULL);
     info("Passed %s.", __func__);
 }
@@ -38,14 +38,14 @@ void happy_path_1()
 void unusual_path()
 {
     struct int_list* lp = NULL;
-    assert(len(lp) == 0);
-    assert(find(3, lp) == -1);
-    destroy(lp);
+    assert(len_of_list(lp) == 0);
+    assert(find_in_list(3, lp) == -1);
+    destroy_list(lp);
 
-    lp = add(-1, lp);
+    lp = add_to_list(-1, lp);
     assert(lp != NULL);
 
-    lp = destroy(lp);
+    lp = destroy_list(lp);
     assert(lp == NULL);
     info("Passed %s.", __func__);
 }
@@ -54,4 +54,6 @@ int main()
 {
     happy_path_1();
     unusual_path();
+
+    return 0;
 }

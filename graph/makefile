@@ -1,18 +1,18 @@
 CFLAGS = -g -Wall -ansi
 
-SRCS = list.c test_list.c
+SRCS = graph.c test_graph.c
 
 OBJS = $(SRCS:.c=.o)
 
-LFLAGS = -L../utils
+LFLAGS = -L../utils -L../list
 
-HFLAGS = -I../utils
+HFLAGS = -I../utils -I../list
 
-LIBS = -lutils
+LIBS = -lutils -llist
 
-HEADERS = list.h
+HEADERS = graph.h
 
-MAIN = test_list
+MAIN = test_graph
 
 all: $(MAIN)
 
@@ -20,7 +20,6 @@ all: $(MAIN)
 
 $(MAIN): $(OBJS)
 	gcc $(CFLAGS) $(HFLAGS) $(LFLAGS) -o $(MAIN) $(OBJS) $(LIBS) 
-	ar rcs liblist.a list.o
 
 .c.o:
 	gcc $(CFLAGS) $(HFLAGS) -c $< -o $@

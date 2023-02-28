@@ -4,7 +4,7 @@
 
 /* To do: Add logging. */
 
-struct int_list* create(int n)
+struct int_list* create_list(int n)
 {
     struct int_list* lp = (struct int_list*)malloc(sizeof(struct int_list));
 
@@ -16,7 +16,7 @@ struct int_list* create(int n)
     return lp;
 }
 
-struct int_list* destroy(struct int_list* lp)
+struct int_list* destroy_list(struct int_list* lp)
 {
     while (lp != NULL) {
         struct int_list* nlp = lp->next;
@@ -27,7 +27,7 @@ struct int_list* destroy(struct int_list* lp)
     return NULL;
 }
 
-int find(int n, const struct int_list* lp)
+int find_in_list(int n, const struct int_list* lp)
 {
     int pos = -1;
     int found = 0;
@@ -44,7 +44,7 @@ int find(int n, const struct int_list* lp)
     return found > 0 ? pos : -1;
 }
 
-struct int_list* rem(int n, struct int_list* lp)
+struct int_list* rem_from_list(int n, struct int_list* lp)
 {
     struct int_list* new = lp;
 
@@ -71,15 +71,15 @@ struct int_list* rem(int n, struct int_list* lp)
     return new;
 }
 
-struct int_list* add(int n, struct int_list* lp)
+struct int_list* add_to_list(int n, struct int_list* lp)
 {
     struct int_list* curr = lp;
     if (lp == NULL) {
-        lp = create(n);
+        lp = create_list(n);
     } else {
         while (1) {
             if (curr->next == NULL) {
-                curr->next = create(n);
+                curr->next = create_list(n);
                 break;
             } else {
                 curr = curr->next;
@@ -90,7 +90,7 @@ struct int_list* add(int n, struct int_list* lp)
     return lp;
 }
 
-unsigned int len(const struct int_list* lp)
+unsigned int len_of_list(const struct int_list* lp)
 {
     int nelems = 0;
 

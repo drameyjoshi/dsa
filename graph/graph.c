@@ -3,6 +3,7 @@
 #include "list.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -28,6 +29,7 @@ struct graph *generate_random(int n_vertices, float probability)
 {
     struct graph *gp = create(n_vertices);
     int seed = (int)time(NULL);
+    int check_data = 0;
     int i, j;
 
     assert(0 < probability);
@@ -38,7 +40,7 @@ struct graph *generate_random(int n_vertices, float probability)
         for (j = i + 1; j < n_vertices; ++j) {
             float p = rand()/RAND_MAX;
             if (p > probability) {
-                add_edge(gp, i, j);
+                add_edge(gp, i, j, check_data);
             }
         }
     }
@@ -46,23 +48,25 @@ struct graph *generate_random(int n_vertices, float probability)
     return gp;
 }
 
-int add_edge(const struct graph *gp, int src, int dest) 
+int add_edge(const struct graph *gp, int src, int dest, int check_data) 
 {
     int success = 1;
 
-    if (gp == NULL) {
-        success = 0;
-        warn("Passed NULL pointer to add_edge.");
-    }
+    if (check_data == 1) {
+        if (gp == NULL) {
+            success = 0;
+            warn("Passed NULL pointer to add_edge.");
+        }
 
-    if (src < 0 || src >= gp->n_vertices) {
-        success = 0;
-        error("Source vertex is out of bounds.");
-    }
+        if (src < 0 || src >= gp->n_vertices) {
+            success = 0;
+            error("Source vertex is out of bounds.");
+        }
 
-    if (dest < 0 || dest >= gp->n_vertices) {
-        success = 0;
-        error("Destination vertex is out of bounds.");
+        if (dest < 0 || dest >= gp->n_vertices) {
+            success = 0;
+            error("Destination vertex is out of bounds.");
+        }
     }
 
     if (success == 1) {
@@ -82,3 +86,32 @@ int add_edge(const struct graph *gp, int src, int dest)
     return success;
 }
 
+void destroy(struct graph *gp)
+{
+    if (gp != NULL) {
+        int i;
+
+        for (i = 0; i < gp->n_vertices; ++i) {
+            destroy_list(gp->adjacency[i]);
+        }
+        free(gp->adjacency);
+    }
+}
+
+void print(const struct graph *gp)
+{
+    if (gp != NULL) {
+        int i;
+
+        printf("# vertices = %d\n", gp->n_vertices); 
+        for (i = 0; i < gp->n_vertices; ++i) {
+            struct int_list *lp = gp->adjacency[i];
+            printf("%d: ", i);
+            while (lp != NULL) {
+                printf("%d, ", lp->data);
+                lp = lp->next;
+            }
+            printf("\n");
+        }
+    }
+}

@@ -10,7 +10,7 @@ struct graph {
 
 struct graph* create(int n_vertices);
 
-int add_edge(const struct graph *gp, int src, int dest);
+int add_edge(const struct graph *gp, int src, int dest, int check_data);
 
 struct graph* generate_random(int n_vertices, float probability);
 

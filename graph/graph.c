@@ -104,7 +104,7 @@ void print_graph(FILE *fp, const struct graph *gp)
     if (gp != NULL) {
         int i;
 
-        printf("# vertices = %d\n", gp->n_vertices); 
+        fprintf(fp, "# vertices = %d\n", gp->n_vertices); 
         for (i = 0; i < gp->n_vertices; ++i) {
             fprintf(fp, "%d: ", i);
             print_list(fp, gp->adjacency[i]);

@@ -1,6 +1,8 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
+#include <stdio.h>
+
 struct int_list {
     int data;
     struct int_list* next;
@@ -17,5 +19,7 @@ int find_in_list(int n, const struct int_list* lp);
 struct int_list* rem_from_list(int n, struct int_list* lp);
 
 unsigned int len_of_list(const struct int_list* lp);
+
+void print(FILE *fp, const struct int_list* lp);
 
 #endif

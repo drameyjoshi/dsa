@@ -1,0 +1,7 @@
+[ 1 ] Run antlr tool using
+	antlr4 -package res.cs Expr.g4
+	
+[ 2 ] Go to /home/ameyjoshi/repos/dsa/compilers/target/classes and run
+the command 
+    grun res.cs.Expr prog -tokens
+The tool expects a program from the standard input.

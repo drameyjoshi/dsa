@@ -86,7 +86,7 @@ int add_edge(const struct graph *gp, int src, int dest, int check_data)
     return success;
 }
 
-void destroy(struct graph *gp)
+void destroy_graph(struct graph *gp)
 {
     if (gp != NULL) {
         int i;
@@ -95,23 +95,19 @@ void destroy(struct graph *gp)
             destroy_list(gp->adjacency[i]);
         }
         free(gp->adjacency);
+        free(gp);
     }
 }
 
-void print(const struct graph *gp)
+void print_graph(FILE *fp, const struct graph *gp)
 {
     if (gp != NULL) {
         int i;
 
         printf("# vertices = %d\n", gp->n_vertices); 
         for (i = 0; i < gp->n_vertices; ++i) {
-            struct int_list *lp = gp->adjacency[i];
-            printf("%d: ", i);
-            while (lp != NULL) {
-                printf("%d, ", lp->data);
-                lp = lp->next;
-            }
-            printf("\n");
+            fprintf(fp, "%d: ", i);
+            print_list(fp, gp->adjacency[i]);
         }
     }
 }

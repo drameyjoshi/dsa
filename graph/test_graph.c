@@ -10,7 +10,8 @@ void test_case_1()
     add_edge(gp, 2, 3, 1);
     add_edge(gp, 3, 4, 1);
 
-    print(gp);
+    print_graph(stdout, gp);
+    destroy_graph(gp);
 }
 
 int main()

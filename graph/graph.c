@@ -101,7 +101,7 @@ void destroy_graph(struct graph *gp)
 
 void print_graph(FILE *fp, const struct graph *gp)
 {
-    if (gp != NULL) {
+    if (gp != NULL && fp != NULL) {
         int i;
 
         fprintf(fp, "# vertices = %d\n", gp->n_vertices); 

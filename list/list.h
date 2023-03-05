@@ -20,6 +20,6 @@ struct int_list* rem_from_list(int n, struct int_list* lp);
 
 unsigned int len_of_list(const struct int_list* lp);
 
-void print(FILE *fp, const struct int_list* lp);
+void print_list(FILE *fp, const struct int_list* lp);
 
 #endif

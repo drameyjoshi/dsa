@@ -102,7 +102,7 @@ unsigned int len_of_list(const struct int_list* lp)
     return nelems;
 }
 
-void print(FILE *fp, const struct int_list* lp)
+void print_list(FILE *fp, const struct int_list* lp)
 {
     if (fp != NULL) {
         if (lp != NULL) {

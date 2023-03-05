@@ -21,7 +21,7 @@ void happy_path_1()
     assert(find_in_list(9, lp) != -1);
     assert(find_in_list(7, lp) != -1);
 
-    print(stdout, lp);
+    print_list(stdout, lp);
 
     lp = rem_from_list(6, lp);
     assert(len_of_list(lp) == 9);

@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Calculator {
 
 	public Calculator() {
-		// TODO Auto-generated constructor stub
+		// Nothing to initialise.
 	}
 
 	public static void main(String[] args) throws IOException {

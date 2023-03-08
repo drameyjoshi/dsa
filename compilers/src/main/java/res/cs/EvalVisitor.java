@@ -63,4 +63,9 @@ public class EvalVisitor extends ExprBaseVisitor<Double> {
 		logger.info(output);
 		return 0.0d;
 	}
+	
+	@Override
+	public Double visitParens(ExprParser.ParensContext ctx) {
+		return visit(ctx.expr());
+	}
 }

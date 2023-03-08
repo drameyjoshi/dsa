@@ -3,18 +3,18 @@ import ExprLexerRules;
 
 prog: stat+;
 
-stat: expr NEWLINE
-    | ID ASSIGN expr NEWLINE
-    | NEWLINE
+stat: expr NEWLINE				# printExpr
+    | ID ASSIGN expr NEWLINE	# assign
+    | NEWLINE					# blank
     ;
 
-expr: expr EXPONENT expr
-    | PLUS expr
-    | MINUS expr
-    | expr (MUL | DIV) expr
-    | expr (PLUS | MINUS) expr
-    | NUMBER
-    | ID
-    | LPAREN expr RPAREN
+expr: expr EXPONENT expr		# exponentiation
+    | PLUS expr					# unaryPlus
+    | MINUS expr				# unaryMinus
+    | expr op=(MUL | DIV) expr		# mulDiv
+    | expr op=(PLUS | MINUS) expr	# addSub
+    | NUMBER					# number
+    | ID						# identifier
+    | LPAREN expr RPAREN		# parens
     ;
 

@@ -1,6 +1,6 @@
 lexer grammar ExprLexerRules;
 
-ID: [a-zA-Z_]+;
+ID: [a-zA-Z]+;
 NUMBER: INT | REAL;
 DIGIT: [0-9];
 INT: [0-9]+;

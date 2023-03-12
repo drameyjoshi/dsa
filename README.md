@@ -1,5 +1,5 @@
 # dsa
-Data structures and algorithms in C and Python.
+Data structures and algorithms in C, Python and Java.
 
 I want to refresh what I learnt about data structures and algorithms several 
 years ago. I thought that the best way to do that would be write basic data 
@@ -25,3 +25,7 @@ memory leaks.
 
 It is often easy to write an algorithm first in Python and then translate it
 to C. A few algorithms are therefore in Python notebooks.
+
+Algorithms related to compilers are written in Java. They are all based on
+ANTLR4.
+

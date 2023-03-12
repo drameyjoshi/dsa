@@ -13,5 +13,6 @@ MINUS: '-';
 MUL: '*';
 DIV: '/';
 EXPONENT: '^';
+CLEAR: 'clear';
 NEWLINE: '\r'? '\n';
 WS: [ \t]+ -> skip;

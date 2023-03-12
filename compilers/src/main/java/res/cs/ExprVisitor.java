@@ -38,6 +38,13 @@ public interface ExprVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlank(ExprParser.BlankContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code clear}
+	 * labeled alternative in {@link ExprParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClear(ExprParser.ClearContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code number}
 	 * labeled alternative in {@link ExprParser#expr}.
 	 * @param ctx the parse tree

@@ -68,4 +68,10 @@ public class EvalVisitor extends ExprBaseVisitor<Double> {
 	public Double visitParens(ExprParser.ParensContext ctx) {
 		return visit(ctx.expr());
 	}
+	
+	@Override
+	public Double visitClear(ExprParser.ClearContext ctx) {
+		symbols.clear();
+		return 0.0d;
+	}
 }

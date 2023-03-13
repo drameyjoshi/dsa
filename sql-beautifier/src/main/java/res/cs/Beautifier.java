@@ -25,7 +25,7 @@ public class Beautifier {
 			try {
 				String original = Files.readString(filePath);
 				Beautifier b = new Beautifier();
-				logger.log(Level.INFO, b.beautify(original));
+				logger.log(Level.INFO, () -> b.beautify(original));
 			} catch (IOException e) {
 				logger.log(Level.WARNING, e.getMessage());
 			}

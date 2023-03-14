@@ -16,7 +16,7 @@
 
 lexer grammar SqlBaseLexer;
 
-options { caseInsensitive = true; }
+options { caseInsensitive = true; } /* Added this line that was absent in the original file. */
 @members {
   /**
    * When true, parser should throw ParseException for unclosed bracketed comment.

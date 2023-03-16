@@ -3,6 +3,7 @@ package res.cs;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.logging.*;
 
 import com.github.vertical_blank.sqlformatter.SqlFormatter;
@@ -25,7 +26,12 @@ public class Beautifier {
 			try {
 				String original = Files.readString(filePath);
 				Beautifier b = new Beautifier();
-				logger.log(Level.INFO, () -> b.beautify(original));
+				String beautified = b.beautify(original);
+				logger.log(Level.FINE, () -> b.beautify(beautified));
+				
+				String newFile = "new_" + filename;
+				Path newpath = Files.writeString(Path.of(newFile), beautified, StandardOpenOption.CREATE);
+				logger.log(Level.INFO, () -> String.format("Beautified query is in %s.", newpath.getFileName()));
 			} catch (IOException e) {
 				logger.log(Level.WARNING, e.getMessage());
 			}

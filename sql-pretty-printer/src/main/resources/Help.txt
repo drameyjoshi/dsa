@@ -1,0 +1,1 @@
+Usage: java -jar <jar file name> <SQL file> [<SQL file> ...]

@@ -56,9 +56,9 @@ public class PrettyPrinter {
         previousWS = false;
     }
 
-    private boolean addNewLine() {
+    private void addNewLine() {
         sb.append("\n");
-        return true;
+        previousWS = true;
     }
 
     private void addString(String s) {
@@ -76,7 +76,7 @@ public class PrettyPrinter {
             } else if (t.getType() == SqlBaseLexer.COMMA) {
                 formatComma(t);
             } else if (t.getType() == SqlBaseLexer.WS) {
-                formatWS(prev);
+                formatWS();
             } else if (t.getType() == SqlBaseLexer.LEFT_PAREN) {
                 formatLParen(t, prev);
             } else if (t.getType() == SqlBaseLexer.RIGHT_PAREN) {
@@ -107,7 +107,7 @@ public class PrettyPrinter {
 
     private void formatComma(Token t) {
         addString(t.getText());
-        previousWS = addNewLine();
+        addNewLine();
         indent();
     }
 
@@ -117,7 +117,7 @@ public class PrettyPrinter {
                 indent();
             }
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
             indentLevel++;
             indent();
         } else if (token.getType() == SqlBaseLexer.FROM || token.getType() == SqlBaseLexer.HAVING
@@ -126,36 +126,36 @@ public class PrettyPrinter {
             --indentLevel;
             indent();
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
             ++indentLevel;
             indent();
         } else if (token.getType() == SqlBaseLexer.JOIN) {
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
             indent();
         } else if (token.getType() == SqlBaseLexer.UNION) {
             addNewLine();
             --indentLevel;
             indent();
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
         } else if (token.getType() == SqlBaseLexer.GROUP) {
-            previousWS = addNewLine();
+            addNewLine();
             --indentLevel;
             indent();
             addString(getAppropriateCase(token));
         } else if (token.getType() == SqlBaseLexer.BY) {
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
             ++indentLevel;
             indent();
         } else if (token.getType() == SqlBaseLexer.CASE) {
             addString(getAppropriateCase(token));
-            previousWS = addNewLine();
+            addNewLine();
             indentLevel++;
             indent();
         } else if (token.getType() == SqlBaseLexer.END) {
-            previousWS = addNewLine();
+            addNewLine();
             indentLevel--;
             indent();
             addString(getAppropriateCase(token));
@@ -167,14 +167,13 @@ public class PrettyPrinter {
     private void formatLParen(Token t, Token prev) {
         addString(t.getText());
         if (isKeyword(Optional.of(prev))) {
-            previousWS = addNewLine();
+            addNewLine();
             indentLevel++;
             indent();
         } else {
             functionCall = true;
             previousWS = false;
         }
-
     }
 
     private void formatRParen(Token t) {
@@ -185,18 +184,20 @@ public class PrettyPrinter {
         }
 
         addString(t.getText());
-        if (!functionCall)
+        if (!functionCall) {
             addNewLine();
-        previousWS = false;
+        } else {
+            previousWS = false;
+        }
+
         functionCall = false;
     }
 
-    private void formatWS(Token prev) {
-        if (!previousWS || isIdentifier(Optional.of(prev))) {
+    private void formatWS() {
+        if (!previousWS) {
             addString(" ");
         }
         previousWS = true;
-
     }
 
     private String getAppropriateCase(Token token) {
@@ -211,6 +212,7 @@ public class PrettyPrinter {
         for (int i = 0; i < indentLevel; i++) {
             sb.append(tab);
         }
+        previousWS = true;
     }
 
     private boolean isBinaryOperator(Token t) {

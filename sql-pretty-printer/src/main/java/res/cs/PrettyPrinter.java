@@ -64,6 +64,7 @@ public class PrettyPrinter {
     private void addString(String s) {
         logger.log(Level.FINE, () -> String.format("Appending %s", s));
         sb.append(s);
+        previousWS = false;
     }
 
     public String buildFormattedStatement(final List<? extends Token> tokens) {
@@ -71,7 +72,7 @@ public class PrettyPrinter {
 
         for (Token t : tokens) {
             if (isKeyword(Optional.of(t))) {
-                formatKeyword(t);
+                formatKeyword(t, prev);
             } else if (t.getType() == SqlBaseLexer.COMMA) {
                 formatComma(t);
             } else if (t.getType() == SqlBaseLexer.WS) {
@@ -110,9 +111,11 @@ public class PrettyPrinter {
         indent();
     }
 
-    private void formatKeyword(Token token) {
+    private void formatKeyword(Token token, Token prev) {
         if (token.getType() == SqlBaseLexer.SELECT) {
-            indent();
+            if (prev != null && prev.getType() != SqlBaseLexer.LEFT_PAREN) {
+                indent();
+            }
             addString(getAppropriateCase(token));
             previousWS = addNewLine();
             indentLevel++;
@@ -166,6 +169,7 @@ public class PrettyPrinter {
         if (isKeyword(Optional.of(prev))) {
             previousWS = addNewLine();
             indentLevel++;
+            indent();
         } else {
             functionCall = true;
             previousWS = false;
@@ -179,10 +183,12 @@ public class PrettyPrinter {
             indentLevel -= 2;
             indent();
         }
-        functionCall = false;
-        addString(t.getText());
-        previousWS = false;
 
+        addString(t.getText());
+        if (!functionCall)
+            addNewLine();
+        previousWS = false;
+        functionCall = false;
     }
 
     private void formatWS(Token prev) {

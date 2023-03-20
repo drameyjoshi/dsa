@@ -119,10 +119,7 @@ public class PrettyPrinter {
     }
 
     private void formatKeyword(Token token, Token prev) {
-        if (token.getType() == SqlBaseLexer.SELECT) {
-            if (prev != null && prev.getType() != SqlBaseLexer.LEFT_PAREN) {
-                indent();
-            }
+        if (token.getType() == SqlBaseLexer.SELECT || token.getType() == SqlBaseLexer.CASE) {
             addString(getAppropriateCase(token));
             addNewLine();
             indentLevel++;
@@ -146,6 +143,7 @@ public class PrettyPrinter {
             indent();
             addString(getAppropriateCase(token));
             addNewLine();
+            indent();
         } else if (token.getType() == SqlBaseLexer.GROUP) {
             addNewLine();
             --indentLevel;
@@ -155,11 +153,6 @@ public class PrettyPrinter {
             addString(getAppropriateCase(token));
             addNewLine();
             ++indentLevel;
-            indent();
-        } else if (token.getType() == SqlBaseLexer.CASE) {
-            addString(getAppropriateCase(token));
-            addNewLine();
-            indentLevel++;
             indent();
         } else if (token.getType() == SqlBaseLexer.END) {
             addNewLine();
@@ -186,16 +179,17 @@ public class PrettyPrinter {
     private void formatRParen(Token t) {
         if (functionCall == 0) {
             addNewLine();
-            indentLevel -= 2;
+            indentLevel -= 1;
             indent();
         }
 
         addString(t.getText());
-        if (functionCall == 0) {
-            addNewLine();
-        } else {
+        if (functionCall > 0) {
             previousWS = false;
             --functionCall;
+        } else {
+            addNewLine();
+            indent();
         }
     }
 

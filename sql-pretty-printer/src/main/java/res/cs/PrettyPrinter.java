@@ -83,6 +83,8 @@ public class PrettyPrinter {
                 formatRParen(t);
             } else if (isBinaryOperator(t)) {
                 formatBinaryOp(t);
+            } else if (isIdentifier(Optional.of(t))) {
+                addString(getAppropriateCase(t));
             } else {
                 addString(t.getText());
             }

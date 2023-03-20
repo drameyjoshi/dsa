@@ -37,7 +37,7 @@ public class PrettyPrinter {
 
     private boolean uppercaseKeyword;
 
-    private boolean functionCall;
+    private int functionCall;
 
     private boolean previousWS;
 
@@ -52,7 +52,7 @@ public class PrettyPrinter {
         this.uppercaseKeyword = false;
         sb = new StringBuilder();
 
-        functionCall = false;
+        functionCall = 0;
         previousWS = false;
     }
 
@@ -107,8 +107,13 @@ public class PrettyPrinter {
 
     private void formatComma(Token t) {
         addString(t.getText());
-        addNewLine();
-        indent();
+        if (0 == functionCall) {
+            addNewLine();
+            indent();
+        } else {
+            addString(" ");
+            previousWS = true;
+        }
     }
 
     private void formatKeyword(Token token, Token prev) {
@@ -171,26 +176,25 @@ public class PrettyPrinter {
             indentLevel++;
             indent();
         } else {
-            functionCall = true;
+            functionCall += 1;
             previousWS = false;
         }
     }
 
     private void formatRParen(Token t) {
-        if (!functionCall) {
+        if (functionCall == 0) {
             addNewLine();
             indentLevel -= 2;
             indent();
         }
 
         addString(t.getText());
-        if (!functionCall) {
+        if (functionCall == 0) {
             addNewLine();
         } else {
             previousWS = false;
+            --functionCall;
         }
-
-        functionCall = false;
     }
 
     private void formatWS() {

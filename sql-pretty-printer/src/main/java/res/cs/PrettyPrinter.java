@@ -133,7 +133,8 @@ public class PrettyPrinter {
             addNewLine();
             ++indentLevel;
             indent();
-        } else if (token.getType() == SqlBaseLexer.JOIN) {
+        } else if (token.getType() == SqlBaseLexer.JOIN || token.getType() == SqlBaseLexer.AND
+                || token.getType() == SqlBaseLexer.OR) {
             addString(getAppropriateCase(token));
             addNewLine();
             indent();

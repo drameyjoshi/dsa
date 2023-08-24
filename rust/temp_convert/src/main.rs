@@ -25,8 +25,7 @@ fn get_response(question: &str) -> String {
         .read_line(&mut ans)
         .expect("Failed to read input.");
 
-    let st = ans.trim();
-    st.to_string()
+    ans.trim().to_string()
 }
 
 fn convert(src_unit: &str, dest_unit: &str, value: f32) -> f32 {

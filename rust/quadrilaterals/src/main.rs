@@ -3,7 +3,7 @@ struct Quadrilateral {
     width: u32,
     height: u32,
     perpendicular: bool, // Are the two sides perpendicular?
-    small_angle: u32 // Acute or right angle between sides.
+    small_angle: u32,    // Acute or right angle between sides.
 }
 
 impl Quadrilateral {
@@ -44,16 +44,14 @@ impl Quadrilateral {
                 let s = format!("Sq [side {0}]", self.width);
                 s.to_string()
             } else {
-                let s = format!("Rect [height {0} width {1}]", 
-                                self.height, 
-                                self.width);
+                let s = format!("Rect [height {0} width {1}]", self.height, self.width);
                 s.to_string()
             }
         } else {
-            let s = format!("Quad [side1 {0} side2 {1} angle {2}]", 
-                            self.height, 
-                            self.width,
-                            self.small_angle);
+            let s = format!(
+                "Quad [side1 {0} side2 {1} angle {2}]",
+                self.height, self.width, self.small_angle
+            );
             s.to_string()
         }
     }
@@ -68,4 +66,3 @@ fn main() {
     println!("Area of {} is {}.", rect.to_string(), rect.area());
     println!("Area of {} is {}.", quad.to_string(), quad.area());
 }
-

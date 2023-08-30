@@ -11,3 +11,7 @@ rand = "0.8.5"
 [[bin]]
 name = "vectors"
 path = "src/vectors.rs"
+
+[[bin]]
+name = "pig_latin"
+path = "src/pig_latin.rs"

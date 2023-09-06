@@ -15,3 +15,7 @@ path = "src/vectors.rs"
 [[bin]]
 name = "pig_latin"
 path = "src/pig_latin.rs"
+
+[[bin]]
+name = "dbase"
+path = "src/dbase.rs"

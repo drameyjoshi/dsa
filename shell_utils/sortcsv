@@ -27,7 +27,7 @@ function show_results() {
     tmpfile_1=$(mktemp)
     cat $fname | sed 1d > $tmpfile_1
 
-    cmd="sort $tmpfile_1 -k$col -t'$sep'"
+    cmd="sort $tmpfile_1 -k$col -t'$sep:"
 
     if [ $numeric -eq 1 ]; then
         cmd=$cmd" -n"
@@ -63,22 +63,22 @@ hflag=0
 
 while getopts ':f:h:s:c:nrp' opt; do
     case "$opt" in
-    f) fname=$OPTARG
-    ;;
-    s) sep=$OPTARG
-    ;;
-    c) col=$OPTARG
-    ;;
-    n) numeric=1
-    ;;
-    r) reverse=1
-    ;;
-    p) pretty_print=1
-    ;;
-    h) hflag=1
-    ;;
-    *) hflag=1
-    ;;
+        f) fname=$OPTARG
+        ;;
+        s) sep=$OPTARG
+        ;;
+        c) col=$OPTARG
+        ;;
+        n) numeric=1
+        ;;
+        r) reverse=1
+        ;;
+        p) pretty_print=1
+        ;;
+        h) hflag=1
+        ;;
+        *) hflag=1
+        ;;
     esac
 done
 

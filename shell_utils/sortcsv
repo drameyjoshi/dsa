@@ -27,7 +27,7 @@ function show_results() {
     tmpfile_1=$(mktemp)
     cat $fname | sed 1d > $tmpfile_1
 
-    cmd="sort $tmpfile_1 -k$col -t'$sep:"
+    cmd="sort $tmpfile_1 -k$col -t'$sep'"
 
     if [ $numeric -eq 1 ]; then
         cmd=$cmd" -n"
@@ -41,7 +41,6 @@ function show_results() {
         tmpfile_2=$(mktemp)
         head -1 $fname > $tmpfile_2
         cmd=$cmd" >> $tmpfile_2"
-        echo $cmd
         eval "$cmd"
         column -s$sep -t $tmpfile_2
         rm $tmpfile_2

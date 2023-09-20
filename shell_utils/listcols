@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function show_help() {
+    sname=`basename $0`
+    cat <<- EOF
+$sname -f<CSV filename> [-h] [-s <seperator>]
+
+$sname reads the first line of a CSV file and treats the values in it
+as column names. It displays a numbered list of the column names on the
+standard output.
+
+The default separator is a comma. If the file uses a different character
+it can be specified as an argument to the -s flag.
+
+Author: Amey Joshi
+Version: 1.0
+Date: 20Sep2023
+EOF
+}
+
+function show_headers() {
+    head -1 $1 | sed "s/$sep/\n/g" | nl
+}
+
+sep=","
+fname=""
+hflag=0
+while getopts ':f:hs:' opt; do
+    case $opt in 
+        s) sep=$OPTARG
+            ;;
+        f) fname=$OPTARG
+            ;;
+        h) hflag=1
+            ;;
+        *) hflag=1
+            ;;
+    esac
+done
+
+if [ $hflag -eq 1 ]; then
+    show_help
+    exit 0
+fi
+
+if [ -z $fname ]; then
+    show_help
+    exit -1
+else
+    show_headers $fname $sep
+fi
+

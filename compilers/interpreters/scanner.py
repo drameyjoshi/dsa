@@ -13,23 +13,30 @@ class Scanner:
         self._current = 0
         self._line = 1
         self._keys = {}
-        self._keys["and"] =  TokenType.AND.name
-        self._keys["class"] =  TokenType.CLASS.name
-        self._keys["else"] =  TokenType.ELSE.name
-        self._keys["false"] =  TokenType.FALSE.name
-        self._keys["fun"] =  TokenType.FUN.name
-        self._keys["for"] =  TokenType.FOR.name
-        self._keys["if"] =  TokenType.IF.name
-        self._keys["nil"] =  TokenType.NIL.name
-        self._keys["or"] =  TokenType.OR.name
-        self._keys["print"] =  TokenType.PRINT.name
-        self._keys["return"] =  TokenType.RETURN.name
-        self._keys["super"] =  TokenType.SUPER.name
-        self._keys["this"] =  TokenType.THIS.name
-        self._keys["true"] =  TokenType.TRUE.name
-        self._keys["var"] =  TokenType.VAR.name
-        self._keys["while"] =  TokenType.WHILE.name
-        self._keys["eof"] =  TokenType.EOF.name
+        self._keys["and"] = TokenType.AND.name
+        self._keys["class"] = TokenType.CLASS.name
+        self._keys["else"] = TokenType.ELSE.name
+        self._keys["false"] = TokenType.FALSE.name
+        self._keys["fun"] = TokenType.FUN.name
+        self._keys["for"] = TokenType.FOR.name
+        self._keys["if"] = TokenType.IF.name
+        self._keys["nil"] = TokenType.NIL.name
+        self._keys["or"] = TokenType.OR.name
+        self._keys["print"] = TokenType.PRINT.name
+        self._keys["return"] = TokenType.RETURN.name
+        self._keys["super"] = TokenType.SUPER.name
+        self._keys["this"] = TokenType.THIS.name
+        self._keys["true"] = TokenType.TRUE.name
+        self._keys["var"] = TokenType.VAR.name
+        self._keys["while"] = TokenType.WHILE.name
+        self._keys["eof"] = TokenType.EOF.name
+
+    def next_command(self, source: str):
+        self._source = source
+        self._tokens = []
+        self._start = 0
+        self._current = 0
+        self._line = 1
 
     def scan_tokens(self) -> List[str]:
         while not self._is_at_end():
@@ -79,13 +86,13 @@ class Scanner:
             while self._peek().isdigit():
                 self._advance()
 
-            n = float(self._source[self._start : self._current])
+            n = float(self._source[self._start: self._current])
             self._add_token(TokenType.NUMBER.name, n)
         elif c.isalpha():
             while self._peek().isalnum():
                 self._advance()
 
-            text = self._source[self._start : self._current]
+            text = self._source[self._start: self._current]
             if text in self._keys:
                 ttype = self._keys[text]
             else:
@@ -159,7 +166,7 @@ class Scanner:
         return c
 
     def _add_token(self, ttype: TokenType, literal: str = None):
-        text = self._source[self._start : self._current]
+        text = self._source[self._start: self._current]
         self._tokens.append(Token(ttype, text, literal, self._line))
 
     def _is_next_char(self, expected: str) -> bool:

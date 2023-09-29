@@ -5,6 +5,7 @@ import sys
 from scanner import Scanner
 import error_handler
 
+
 def main():
     if len(sys.argv) == 1:
         run_repl()
@@ -64,4 +65,3 @@ def process(filename: str) -> None:
 
 if __name__ == "__main__":
     main()
-

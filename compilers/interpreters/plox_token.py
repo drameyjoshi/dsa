@@ -1,5 +1,6 @@
 from token_types import TokenType
 
+
 class Token:
     def __init__(self,
                  ttype: TokenType,

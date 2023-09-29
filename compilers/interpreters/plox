@@ -35,6 +35,7 @@ def run_repl() -> None:
     first_time = True
     prompt = "plox> "
     command = ""
+    scn = Scanner(command)
 
     while proceed:
         if first_time:
@@ -51,7 +52,7 @@ def run_repl() -> None:
             proceed = False
 
         if proceed and len(command) > 0:
-            scn = Scanner(command)
+            scn.next_command(command)
             tokens = scn.scan_tokens()
             for t in tokens:
                 print(str(t))

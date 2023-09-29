@@ -1,0 +1,66 @@
+#!/usr/bin/python
+
+import sys
+
+from scanner import Scanner
+import error_handler
+
+def main():
+    if len(sys.argv) == 1:
+        run_repl()
+    elif len(sys.argv) == 2:
+        process(sys.argv[1])
+    else:
+        show_help()
+        exit(-1)
+
+
+def show_help() -> None:
+    help_text = """plox [<file name>]
+
+plox is a Python based compiler for the lox programming language.
+If the program is invoked without an argument it starts a REPL. If the only
+argument is a plox code file then the program compiles it. In all other
+cases the program prints this help and exits.
+
+Author: Amey Joshi
+Date: 28Sep2023
+Version: 1.0"""
+
+    print(help_text)
+
+
+def run_repl() -> None:
+    proceed = True
+    first_time = True
+    prompt = "plox> "
+    command = ""
+
+    while proceed:
+        if first_time:
+            first_time = False
+            print("Welcome to plox. Enter quit to end.")
+
+        print(prompt, end="")
+        try:
+            command = input()
+        except EOFError:
+            proceed = False
+
+        if command == "quit":
+            proceed = False
+
+        if proceed and len(command) > 0:
+            scn = Scanner(command)
+            tokens = scn.scan_tokens()
+            for t in tokens:
+                print(str(t))
+
+
+def process(filename: str) -> None:
+    print("Not yet implemented.")
+
+
+if __name__ == "__main__":
+    main()
+

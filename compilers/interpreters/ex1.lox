@@ -1,4 +1,9 @@
-rad = 1
-pi = 3.14
-area = pi * r * r
-print area
+var rad = 1
+var pi = 3.14
+if (rad >= 0) {
+    var area = pi * r * r
+    print area
+} else {
+    // Cannot have a circle with negative radius.
+    print "Cannot find area of a circle with negative radius."
+}

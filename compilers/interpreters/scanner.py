@@ -72,6 +72,7 @@ class Scanner:
             case "\r": pass
             case "\t": pass
             case "\n": self._line += 1
+            case "'": self._match_string()
             case '"': self._match_string()
             case _: self._match_default(c)
 
@@ -149,12 +150,12 @@ class Scanner:
         self._add_token(TokenType.STRING.name, strval)
 
     def _peek(self) -> str:
-        if self._is_at_end:
+        if self._is_at_end():
             return "\0"
         else:
             return self._source[self._current]
 
-    def __peek_next(self) -> str:
+    def _peek_next(self) -> str:
         if self._current + 1 >= len(self._source):
             return "\0"
         else:

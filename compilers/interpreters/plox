@@ -68,8 +68,6 @@ def process(filename: str) -> None:
     for t in tokens:
         print(str(t))
 
-    print("Not yet implemented.")
-
 
 if __name__ == "__main__":
     main()

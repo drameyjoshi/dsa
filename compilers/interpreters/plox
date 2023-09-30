@@ -60,6 +60,14 @@ def run_repl() -> None:
 
 
 def process(filename: str) -> None:
+    tokens = []
+    with open(filename, "r") as fp:
+        scn = Scanner(fp.read())
+        tokens = scn.scan_tokens()
+
+    for t in tokens:
+        print(str(t))
+
     print("Not yet implemented.")
 
 

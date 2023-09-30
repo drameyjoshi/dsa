@@ -1,11 +1,17 @@
-import error_handler
-
+"""
+A lexical analyser for lox code.
+"""
+from typing import List
 from token_types import TokenType
 from plox_token import Token
-from typing import List
+
+import error_handler
 
 
 class Scanner:
+    """
+    A class to scan the source code and perform lexical analysis.
+    """
     def __init__(self, source: str):
         self._source = source
         self._tokens = []
@@ -31,7 +37,16 @@ class Scanner:
         self._keys["while"] = TokenType.WHILE.name
         self._keys["eof"] = TokenType.EOF.name
 
-    def next_command(self, source: str):
+    def next_command(self, source: str) -> None:
+        """
+        Sets the next command of the scanner.
+
+        When the scanner is used in the REPL, each time the user gives a
+        new command it is supplied to the scanner using this method.
+
+        Parameters: source - a line of source code.
+        Return: Nothing.
+        """
         self._source = source
         self._tokens = []
         self._start = 0
@@ -39,6 +54,12 @@ class Scanner:
         self._line = 1
 
     def scan_tokens(self) -> List[str]:
+        """
+        Scans the source code and returns a list of tokens.
+
+        Parameters: None
+        Return: A list of (string representation of) tokens.
+        """
         while not self._is_at_end():
             self._start = self._current
             self._scan_token()
@@ -51,9 +72,9 @@ class Scanner:
         return self._current >= len(self._source)
 
     def _scan_token(self) -> None:
-        c = self._advance()
+        char = self._advance()
 
-        match c:
+        match char:
             case "(": self._add_token(TokenType.LPAREN.name)
             case ")": self._add_token(TokenType.RPAREN.name)
             case "{": self._add_token(TokenType.LBRACE.name)
@@ -75,10 +96,10 @@ class Scanner:
             case "\n": self._line += 1
             case "'": self._match_string()
             case '"': self._match_string()
-            case _: self._match_default(c)
+            case _: self._match_default(char)
 
-    def _match_default(self, c: str) -> None:
-        if c == "." or c.isdigit():
+    def _match_default(self, char: str) -> None:
+        if char == "." or char.isdigit():
             while self._peek().isdigit():
                 self._advance()
 
@@ -88,9 +109,9 @@ class Scanner:
             while self._peek().isdigit():
                 self._advance()
 
-            n = float(self._source[self._start: self._current])
-            self._add_token(TokenType.NUMBER.name, n)
-        elif c.isalpha():
+            num = float(self._source[self._start: self._current])
+            self._add_token(TokenType.NUMBER.name, num)
+        elif char.isalpha():
             while self._peek().isalnum():
                 self._advance()
 
@@ -151,32 +172,31 @@ class Scanner:
         self._add_token(TokenType.STRING.name, strval)
 
     def _peek(self) -> str:
-        if self._is_at_end():
-            return "\0"
-        else:
-            return self._source[self._current]
+        ret_val = "\0"
+        if not self._is_at_end():
+            ret_val = self._source[self._current]
+
+        return ret_val
 
     def _peek_next(self) -> str:
-        if self._current + 1 >= len(self._source):
-            return "\0"
-        else:
-            return self._source[self._current + 1]
+        ret_val = "\0"
+        if self._current + 1 < len(self._source):
+            ret_val = self._source[self._current + 1]
+
+        return ret_val
 
     def _advance(self) -> str:
-        c = self._source[self._current]
+        char = self._source[self._current]
         self._current += 1
-        return c
+        return char
 
     def _add_token(self, ttype: TokenType, literal: str = None):
         text = self._source[self._start: self._current]
         self._tokens.append(Token(ttype, text, literal, self._line))
 
     def _is_next_char(self, expected: str) -> bool:
-        if self._is_at_end():
+        if self._is_at_end() or self._source[self._current] != expected:
             return False
 
-        if self._source[self._current] != expected:
-            return False
-        else:
-            self._current += 1
-            return True
+        self._current += 1
+        return True

@@ -68,6 +68,7 @@ class Scanner:
             case "=": self._match_eq()
             case "<": self._match_lt()
             case ">": self._match_gt()
+            case "/": self._match_slash()
             case " ": pass
             case "\r": pass
             case "\t": pass
@@ -129,7 +130,7 @@ class Scanner:
 
     def _match_slash(self) -> None:
         if self._is_next_char("/"):
-            while self._peek() != "\n" and self._is_at_end():
+            while self._peek() != "\n" and not self._is_at_end():
                 self._advance()
         else:
             self._add_token(TokenType.SLASH.name)
@@ -142,11 +143,11 @@ class Scanner:
             self._advance()
 
         if self._is_at_end():
-            error_handler.report(line, "", "Unterminated string")
+            error_handler.report(self._line, "", "Unterminated string")
             return
 
         self._advance()
-        strval = self._source[self._start + 1, self._current - 1]
+        strval = self._source[(self._start + 1): (self._current - 1)]
         self._add_token(TokenType.STRING.name, strval)
 
     def _peek(self) -> str:

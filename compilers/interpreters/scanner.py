@@ -10,7 +10,6 @@ from token_types import TokenType
 from plox_token import Token
 
 
-
 class Scanner:
     """
     A class to scan the source code and perform lexical analysis.
@@ -112,7 +111,7 @@ class Scanner:
         def _is_word_or_num(char: str) -> bool:
             result = False
 
-            if char.isalnum() or char == "." or char == "-":
+            if char.isalnum() or char in ".-_":
                 result = True
 
             return result
@@ -129,7 +128,7 @@ class Scanner:
             num = float(word)
             self._add_token(TokenType.NUMBER.name, num)
         else:
-            if word[0].isalpha():
+            if word.isidentifier():
                 if word in self._keys:
                     ttype = self._keys[word]
                 else:
@@ -137,7 +136,9 @@ class Scanner:
 
                 self._add_token(ttype)
             else:
-                error_handler.report(self._line, word, "Invalid identifier.")
+                error_handler.report(self._line,
+                                     word,
+                                     "Invalid identifier.")
 
     def _match_bang(self) -> None:
         if self._is_next_char("="):

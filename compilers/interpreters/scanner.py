@@ -1,17 +1,23 @@
 """
 A lexical analyser for lox code.
 """
+import re
+
 from typing import List
+
+import error_handler
 from token_types import TokenType
 from plox_token import Token
 
-import error_handler
 
 
 class Scanner:
     """
     A class to scan the source code and perform lexical analysis.
     """
+    match_number = re.compile(
+        '-?\\ *[0-9]+\\.?[0-9]*(?:[Ee]\\ *-?\\ *[0-9]+)?')
+
     def __init__(self, source: str):
         self._source = source
         self._tokens = []
@@ -96,34 +102,42 @@ class Scanner:
             case "\n": self._line += 1
             case "'": self._match_string()
             case '"': self._match_string()
-            case _: self._match_default(char)
+            case _: self._match_default()
 
-    def _match_default(self, char: str) -> None:
-        if char == "." or char.isdigit():
-            while self._peek().isdigit():
-                self._advance()
+    def _match_default(self) -> None:
+        word = self._grab_next_word()
+        self._classify_word(word)
 
-            if self._peek() == "." and self._peek_next().isdigit():
-                self._advance()
+    def _grab_next_word(self) -> None:
+        def _is_word_or_num(char: str) -> bool:
+            result = False
 
-            while self._peek().isdigit():
-                self._advance()
+            if char.isalnum() or char == "." or char == "-":
+                result = True
 
-            num = float(self._source[self._start: self._current])
+            return result
+
+        while _is_word_or_num(self._peek()):
+            self._advance()
+
+        word = self._source[self._start: self._current]
+
+        return word
+
+    def _classify_word(self, word: str) -> None:
+        if re.fullmatch(Scanner.match_number, word) is not None:
+            num = float(word)
             self._add_token(TokenType.NUMBER.name, num)
-        elif char.isalpha():
-            while self._peek().isalnum():
-                self._advance()
-
-            text = self._source[self._start: self._current]
-            if text in self._keys:
-                ttype = self._keys[text]
-            else:
-                ttype = TokenType.IDENTIFIER.name
-
-            self._add_token(ttype)
         else:
-            error_handler.report(self._line, "", "Unexpected character")
+            if word[0].isalpha():
+                if word in self._keys:
+                    ttype = self._keys[word]
+                else:
+                    ttype = TokenType.IDENTIFIER.name
+
+                self._add_token(ttype)
+            else:
+                error_handler.report(self._line, word, "Invalid identifier.")
 
     def _match_bang(self) -> None:
         if self._is_next_char("="):

@@ -15,7 +15,7 @@ class Scanner:
     A class to scan the source code and perform lexical analysis.
     """
     match_number = re.compile(
-        '-?\\ *[0-9]+\\.?[0-9]*(?:[Ee]\\ *-?\\ *[0-9]+)?')
+        '-?\\ *[0-9]+\\.?[0-9]*(?:[Ee]\\ *[-+]?\\ *[0-9]+)?')
 
     def __init__(self, source: str):
         self._source = source

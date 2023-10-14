@@ -51,7 +51,7 @@ class Grouping(Expr):
         self.expression = expression
 
     def accept(self, visitor: Visitor) -> str:
-        return visitor.visit_groupring(self)
+        return visitor.visit_grouping(self)
 
 class Literal(Expr):
     def __init__(self, value: Union[str, float]):

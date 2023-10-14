@@ -1,5 +1,7 @@
+from abc import abstractmethod
+
 class Visitor:
-    __init__(self):
+    def __init__(self):
         pass
 
     @abstractmethod
@@ -19,7 +21,7 @@ class Visitor:
         pass
 
     @abstractmethod
-    def visit_groupring(self):
+    def visit_grouping(self):
         pass
 
     @abstractmethod

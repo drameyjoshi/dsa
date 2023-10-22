@@ -4,7 +4,8 @@ from expr import (Expr, Assign, Binary, Call, Grouping,
                   Getter, Literal, Logical, Setter, Super, This, Unary, Variable)
 from token_types import TokenType
 
-from typing import List, Any
+from typing import Any
+from overrides import override
 
 
 class ASTPrinter(Visitor):
@@ -47,42 +48,54 @@ class ASTPrinter(Visitor):
 
         return rv
 
+    @override
     def visit_assign_expr(self, assign_expr: Assign) -> str:
         return self._parenthesize_2('=', assign_expr.name, assign_expr.value)
 
+    @override
     def visit_binary_expr(self, binary_expr: Binary) -> str:
         return self._parenthesize(binary_expr.operator._lexeme, binary_expr.left, binary_expr.right)
 
+    @override
     def visit_call(self, call_expr: Call) -> str:
         return self._parenthesize('call', call_expr.callee, call_expr.args)
 
+    @override
     def visit_getter(self, get_expr: Getter) -> str:
         return self._parenthesize('.', get_expr.from_object, get_expr.name._lexeme)
 
+    @override
     def visit_grouping(self, grouping_expr: Grouping) -> str:
         return self._parenthesize('group', grouping_expr.expression)
 
+    @override
     def visit_literal(self, literal_expr: Literal) -> str:
         if literal_expr.value is None:
             return 'nil'
         else:
             return str(literal_expr.value)
 
+    @override
     def visit_logical(self, logical_expr: Logical) -> str:
         return self._parenthesize(logical_expr.operator._lexeme, logical_expr.left, logical_expr.right)
 
+    @override
     def visit_setter(self, setter_expr: Setter) -> str:
         return self._parenthesize(setter_expr.to_object, setter_expr.name._lexeme, setter_expr.value)
 
+    @override
     def visit_super(self, super_expr: Super) -> str:
         return self._parenthesize('super', super_expr.method)
 
+    @override
     def visit_this(self, this_expr: This) -> str:
         return 'this'
 
+    @override
     def visit_unary(self, unary_expr: Unary) -> str:
         return self._parenthesize(unary_expr.operator._lexeme, unary_expr.right)
 
+    @override
     def visit_variable(self, variable: Variable) -> str:
         return self._parenthesize(variable.name)
 

@@ -12,7 +12,8 @@ class ASTPrinter(Visitor):
         self.expr = expr
 
     def print(self):
-        print(self.expr.accept(self))
+        if self.expr is not None:
+            print(self.expr.accept(self))
 
     def _transform(self, rv: str, part: Any) -> str:
         if isinstance(part, Token):

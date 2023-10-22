@@ -3,8 +3,10 @@
 import sys
 
 from scanner import Scanner
-import error_handler
-
+from typing import List
+from plox_token import Token
+from plox_parser import Parser
+from ast_printer import ASTPrinter
 
 def main():
     if len(sys.argv) == 1:
@@ -55,8 +57,7 @@ def run_repl() -> None:
         if proceed and len(command) > 0:
             scn.next_command(command)
             tokens = scn.scan_tokens()
-            for t in tokens:
-                print(str(t))
+            process_tokens(tokens)
 
 
 def process(filename: str) -> None:
@@ -65,9 +66,17 @@ def process(filename: str) -> None:
         scn = Scanner(fp.read())
         tokens = scn.scan_tokens()
 
-    for t in tokens:
-        print(str(t))
+    process_tokens(tokens)
 
+def process_tokens(tokens: List[Token]):
+    parser = Parser(tokens)
+
+    if not parser._is_error:
+        expression = parser.parse()
+        ast_printer = ASTPrinter(expression)
+        ast_printer.print()
+    else:
+        print('Syntax error.')
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
 """
-A lexical analyser for lox code.
+A lexical analyser for Lox code.
 """
 import re
 
@@ -24,23 +24,23 @@ class Scanner:
         self._current = 0
         self._line = 1
         self._keys = {}
-        self._keys["and"] = TokenType.AND.name
-        self._keys["class"] = TokenType.CLASS.name
-        self._keys["else"] = TokenType.ELSE.name
-        self._keys["false"] = TokenType.FALSE.name
-        self._keys["fun"] = TokenType.FUN.name
-        self._keys["for"] = TokenType.FOR.name
-        self._keys["if"] = TokenType.IF.name
-        self._keys["nil"] = TokenType.NIL.name
-        self._keys["or"] = TokenType.OR.name
-        self._keys["print"] = TokenType.PRINT.name
-        self._keys["return"] = TokenType.RETURN.name
-        self._keys["super"] = TokenType.SUPER.name
-        self._keys["this"] = TokenType.THIS.name
-        self._keys["true"] = TokenType.TRUE.name
-        self._keys["var"] = TokenType.VAR.name
-        self._keys["while"] = TokenType.WHILE.name
-        self._keys["eof"] = TokenType.EOF.name
+        self._keys["and"] = TokenType.AND
+        self._keys["class"] = TokenType.CLASS
+        self._keys["else"] = TokenType.ELSE
+        self._keys["false"] = TokenType.FALSE
+        self._keys["fun"] = TokenType.FUN
+        self._keys["for"] = TokenType.FOR
+        self._keys["if"] = TokenType.IF
+        self._keys["nil"] = TokenType.NIL
+        self._keys["or"] = TokenType.OR
+        self._keys["print"] = TokenType.PRINT
+        self._keys["return"] = TokenType.RETURN
+        self._keys["super"] = TokenType.SUPER
+        self._keys["this"] = TokenType.THIS
+        self._keys["true"] = TokenType.TRUE
+        self._keys["var"] = TokenType.VAR
+        self._keys["while"] = TokenType.WHILE
+        self._keys["eof"] = TokenType.EOF
 
     def next_command(self, source: str) -> None:
         """
@@ -80,16 +80,16 @@ class Scanner:
         char = self._advance()
 
         match char:
-            case "(": self._add_token(TokenType.LPAREN.name)
-            case ")": self._add_token(TokenType.RPAREN.name)
-            case "{": self._add_token(TokenType.LBRACE.name)
-            case "}": self._add_token(TokenType.RBRACE.name)
-            case ",": self._add_token(TokenType.COMMA.name)
-            case ".": self._add_token(TokenType.DOT.name)
-            case "+": self._add_token(TokenType.PLUS.name)
-            case "-": self._add_token(TokenType.MINUS.name)
-            case "*": self._add_token(TokenType.STAR.name)
-            case ";": self._add_token(TokenType.SEMICOLON.name)
+            case "(": self._add_token(TokenType.LPAREN)
+            case ")": self._add_token(TokenType.RPAREN)
+            case "{": self._add_token(TokenType.LBRACE)
+            case "}": self._add_token(TokenType.RBRACE)
+            case ",": self._add_token(TokenType.COMMA)
+            case ".": self._add_token(TokenType.DOT)
+            case "+": self._add_token(TokenType.PLUS)
+            case "-": self._add_token(TokenType.MINUS)
+            case "*": self._add_token(TokenType.STAR)
+            case ";": self._add_token(TokenType.SEMICOLON)
             case "!": self._match_bang()
             case "=": self._match_eq()
             case "<": self._match_lt()
@@ -126,13 +126,13 @@ class Scanner:
     def _classify_word(self, word: str) -> None:
         if re.fullmatch(Scanner.match_number, word) is not None:
             num = float(word)
-            self._add_token(TokenType.NUMBER.name, num)
+            self._add_token(TokenType.NUMBER, num)
         else:
             if word.isidentifier():
                 if word in self._keys:
                     ttype = self._keys[word]
                 else:
-                    ttype = TokenType.IDENTIFIER.name
+                    ttype = TokenType.IDENTIFIER
 
                 self._add_token(ttype)
             else:
@@ -142,34 +142,34 @@ class Scanner:
 
     def _match_bang(self) -> None:
         if self._is_next_char("="):
-            self._add_token(TokenType.BANG_EQ.name)
+            self._add_token(TokenType.BANG_EQ)
         else:
-            self._add_token(TokenType.BANG.name)
+            self._add_token(TokenType.BANG)
 
     def _match_eq(self) -> None:
         if self._is_next_char("="):
-            self._add_token(TokenType.EQ_EQ.name)
+            self._add_token(TokenType.EQ_EQ)
         else:
-            self._add_token(TokenType.EQ.name)
+            self._add_token(TokenType.EQ)
 
     def _match_gt(self) -> None:
         if self._is_next_char("="):
-            self._add_token(TokenType.GTE.name)
+            self._add_token(TokenType.GTE)
         else:
-            self._add_token(TokenType.GT.name)
+            self._add_token(TokenType.GT)
 
     def _match_lt(self) -> None:
         if self._is_next_char("="):
-            self._add_token(TokenType.LTE.name)
+            self._add_token(TokenType.LTE)
         else:
-            self._add_token(TokenType.LT.name)
+            self._add_token(TokenType.LT)
 
     def _match_slash(self) -> None:
         if self._is_next_char("/"):
             while self._peek() != "\n" and not self._is_at_end():
                 self._advance()
         else:
-            self._add_token(TokenType.SLASH.name)
+            self._add_token(TokenType.SLASH)
 
     def _match_string(self) -> None:
         while self._peek() != '"' and not self._is_at_end():
@@ -184,7 +184,7 @@ class Scanner:
 
         self._advance()
         strval = self._source[(self._start + 1): (self._current - 1)]
-        self._add_token(TokenType.STRING.name, strval)
+        self._add_token(TokenType.STRING, strval)
 
     def _peek(self) -> str:
         ret_val = "\0"

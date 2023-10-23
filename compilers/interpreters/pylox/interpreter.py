@@ -1,65 +1,160 @@
 """
 A class that executes the Abstract Syntax Tree.
 """
+import logging
+import visitor
 
-from visitor import Visitor
 from expr import Binary, Literal, Grouping, Expr, Unary
 from overrides import override
 from token_types import TokenType
+from abc_expr import ABCExpr
 
 
-class Interpreter(Visitor):
+class Interpreter(visitor.Visitor):
+    def __init__(self):
+        self._log = logging.getLogger('Interpreter')
+
+    def interpret(self, expr: Expr) -> str:
+        value = self._evaluate(expr)
+        return str(value)
+
     @override
-    def visit_literal(self, literal: Literal):
+    def visit_literal(self, literal: ABCExpr):
+        assert isinstance(literal, Literal)
+
         return literal.value
 
     @override
-    def visit_grouping(self, grouping: Grouping):
+    def visit_grouping(self, grouping: ABCExpr):
+        assert isinstance(grouping, Grouping)
+
         return self._evaluate(grouping.expression)
 
     @override
-    def visit_unary(self, unary: Unary):
-        if unary.operator == TokenType.MINUS:
+    def visit_unary(self, unary: ABCExpr):
+        assert isinstance(unary, Unary)
+
+        if unary.operator._ttype == TokenType.MINUS:
             right = self._evaluate(unary.right)
             return -right
-        elif unary.operator == TokenType.BANG:
+        elif unary.operator._ttype == TokenType.BANG:
             right = self._evaluate_truth_value(unary.right)
             return not right
 
         return None
 
     @override
-    def visit_binary_expr(self, binary: Binary):
+    def visit_binary_expr(self, binary: ABCExpr):
+        """
+        Function calls are expensive in Python and this function is likely
+        to be called frequently.
+        """
+        assert isinstance(binary, Binary)
+
         left = self._evaluate(binary.left)
         right = self._evaluate(binary.right)
+        left_num = isinstance(left, float)
+        right_num = isinstance(right, float)
+        left_str = isinstance(left, str)
+        right_str = isinstance(right, str)
         return_value = None
 
-        if binary.operator == TokenType.PLUS:
-            if isinstance(left, float) or isinstance(left, str):
-                if isinstance(right, float) or isinstance(right, str):
-                    return_value = left + right
-
-        if isinstance(left, float) and isinstance(right, float):
-            if binary.operator == TokenType.MINUS:
+        if binary.operator._ttype == TokenType.PLUS:
+            if left_num and right_num or left_str and right_str:
+                return_value = left + right
+            elif left_num and right_str:
+                return_value = str(left) + right
+            elif left_str and right_num:
+                return_value = left + str(right)
+            else:
+                self._log.error('Incompatible operands to + operator.')
+        elif binary.operator._ttype == TokenType.MINUS:
+            if left_num and right_num:
                 return_value = left - right
-            elif binary.operator == TokenType.STAR:
+            else:
+                self._log.error('Incompatible operands to - operator.')
+        elif binary.operator._ttype == TokenType.STAR:
+            if left_num and right_num:
                 return_value = left * right
-            elif binary.operator == TokenType.SLASH:
+            elif left_str and right_num:
+                n = int(right)
+                if n >= 0:
+                    return n * left_str
+            elif left_num and right_str:
+                n = int(left)
+                if n >= 0:
+                    return n * right_str
+            else:
+                self._log.error('Incompatible operands to * operator.')
+        elif binary.operator._ttype == TokenType.SLASH:
+            if left_num and right_num:
                 return_value = left / right
-
-        if isinstance(left, float) and isinstance(right, str):
-            n = int(left)
-            if n >= 0:
-                return_value = int(left) * right
-
-        if isinstance(left, str) and isinstance(right, float):
-            n = int(right)
-            if n >= 0:
-                return_value = left * int(right)
-
-        # To do: add remaining operators.
+            else:
+                self._log.error('Incompatible operands to - operator.')
+        elif binary.operator._ttype == TokenType.GT:
+            if left_num and right_num or left_str and right_str:
+                return left > right
+            else:
+                self._log.error('Incompatible operands to > operator.')
+        elif binary.operator._ttype == TokenType.GTE:
+            if left_num and right_num or left_str and right_str:
+                return left >= right
+            else:
+                self._log.error('Incompatible operands to > operator.')
+        elif binary.operator._ttype == TokenType.LT:
+            if left_num and right_num or left_str and right_str:
+                return left < right
+            else:
+                self._log.error('Incompatible operands to > operator.')
+        elif binary.operator._ttype == TokenType.LTE:
+            if left_num and right_num or left_str and right_str:
+                return left <= right
+            else:
+                self._log.error('Incompatible operands to > operator.')
+        elif binary.operator._ttype == TokenType.EQ_EQ:
+            if left_num and right_num or left_str and right_str:
+                return left == right
+            else:
+                self._log.error('Incompatible operands to > operator.')
+        elif binary.operator._ttype == TokenType.BANG_EQ:
+            if left_num and right_num or left_str and right_str:
+                return left != right
+            else:
+                self._log.error('Incompatible operands to > operator.')
 
         return return_value
+    
+    @override
+    def visit_assign_expr(self, assign: ABCExpr):
+        return super().visit_assign_expr(assign)
+    
+    @override
+    def visit_call(self, call: ABCExpr):
+        return super().visit_call(call)
+    
+    @override
+    def visit_logical(self, logical: ABCExpr):
+        return super().visit_logical(logical)
+    
+    @override
+    def visit_getter(self, getter: ABCExpr):
+        return super().visit_getter(getter)
+    
+    @override
+    def visit_setter(self, setter: ABCExpr):
+        return super().visit_setter(setter)
+    
+    @override
+    def visit_super(self, super: ABCExpr):
+        return super().visit_super(super)
+    
+    @override
+    def visit_this(self, this: ABCExpr):
+        return super().visit_this(this)
+    
+    @override
+    def visit_variable(self, variable: ABCExpr):
+        return super().visit_variable(variable)
 
     def _evaluate(self, expression: Expr):
         return expression.accept(self)

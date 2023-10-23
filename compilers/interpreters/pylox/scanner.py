@@ -17,7 +17,7 @@ class Scanner:
     match_number = re.compile(
         '-?\\ *[0-9]+\\.?[0-9]*(?:[Ee]\\ *[-+]?\\ *[0-9]+)?')
 
-    def __init__(self, source: str):
+    def __init__(self, source: str) -> None:
         self._source = source
         self._tokens = []
         self._start = 0

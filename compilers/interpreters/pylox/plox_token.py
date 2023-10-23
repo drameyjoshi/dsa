@@ -6,7 +6,7 @@ class Token:
                  ttype: TokenType,
                  lexeme: str,
                  literal: str,
-                 line: int):
+                 line: int) -> None:
         self._ttype = ttype
         self._lexeme = lexeme
         self._literal = literal

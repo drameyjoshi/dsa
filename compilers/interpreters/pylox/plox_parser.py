@@ -7,6 +7,7 @@ from typing import List
 from plox_token import Token
 from expr import Expr, Binary, Unary, Literal, Grouping, Variable
 from token_types import TokenType
+from stmt import Stmt, Print
 
 import error_handler
 
@@ -17,10 +18,42 @@ class Parser:
         self._current = 0
         self._is_error = False
 
-    def parse(self) -> Expr:
-        return self._expression()
+    def parse(self) -> None:
+        statements = []
 
-    def _expression(self):
+        while not self._is_at_end():
+            statements.append(self._statement())
+
+        return statements
+
+    def _statment(self) -> Stmt:
+        if self.match([TokenType.PRINT]):
+            return self._print_statement()
+        
+        return self._expression_statement()
+
+    def _print_statement(self) -> Stmt:
+        value = self._expression()
+        self._consume(TokenType.SEMICOLON, "Expecting ; after value")
+
+        return Print(value)
+
+    def _expression_statement(self) -> Stmt:
+        value = self._expression()
+        self._consume(TokenType.SEMICOLON, "Expecting ; after value")
+
+        return Print(value)
+
+    def _consume(self,
+                 token_type: TokenType,
+                 message: str) -> Token:
+        if self._check(token_type):
+            return self._advance()
+        
+        error_handler.report(self._peek()._line, "", message)
+        return None
+    
+    def _expression(self) -> Expr:
         return self._equality()
 
     def _equality(self) -> Expr:
@@ -90,20 +123,13 @@ class Parser:
 
         if self._match([TokenType.LPAREN]):
             expr = self._expression()
-            if self._match([TokenType.RPAREN]):
-                self._advance()
-                return Grouping(expr)
-            else:
-                error_handler.report(self._tokens[self._current]._line,
-                                     '',
-                                     "Expecting ')' after expression.")
-                self._is_error = True
-                # To do: check if this is the best return value.
-                return None
+            self._consume(TokenType.RPAREN, "Expecting ')' after expression.")
+            return Grouping(expr)
 
         error_handler.report(self._peek()._line,
                              '',
                              'Expecting expression.')
+        return None
 
     def _match(self, some_tokens: List[Token]) -> bool:
         for t in some_tokens:

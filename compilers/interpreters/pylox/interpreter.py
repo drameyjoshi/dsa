@@ -2,6 +2,8 @@
 A class that executes the Abstract Syntax Tree.
 """
 import logging
+from typing import Any
+from abc_stmt import ABCStmt
 import visitor
 
 from expr import Binary, Literal, Grouping, Expr, Unary
@@ -11,7 +13,7 @@ from abc_expr import ABCExpr
 
 
 class Interpreter(visitor.Visitor):
-    def __init__(self):
+    def __init__(self) -> None:
         self._log = logging.getLogger('Interpreter')
 
     def interpret(self, expr: Expr) -> str:
@@ -156,6 +158,17 @@ class Interpreter(visitor.Visitor):
     def visit_variable(self, variable: ABCExpr):
         return super().visit_variable(variable)
 
+    @override
+    def visit_expression_statement(self, expr_stmt: ABCStmt) -> Any:
+        self._evaluate(expr_stmt._expression)
+        return None
+    
+    @override
+    def visit_print_statement(self, print_stmt: ABCStmt) -> Any:
+        value = self._evaluate(print_stmt._expression)
+        print(str(value))
+        return None
+    
     def _evaluate(self, expression: Expr):
         return expression.accept(self)
 

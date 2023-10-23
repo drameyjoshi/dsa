@@ -123,35 +123,35 @@ class Interpreter(visitor.Visitor):
                 self._log.error('Incompatible operands to > operator.')
 
         return return_value
-    
+
     @override
     def visit_assign_expr(self, assign: ABCExpr):
         return super().visit_assign_expr(assign)
-    
+
     @override
     def visit_call(self, call: ABCExpr):
         return super().visit_call(call)
-    
+
     @override
     def visit_logical(self, logical: ABCExpr):
         return super().visit_logical(logical)
-    
+
     @override
     def visit_getter(self, getter: ABCExpr):
         return super().visit_getter(getter)
-    
+
     @override
     def visit_setter(self, setter: ABCExpr):
         return super().visit_setter(setter)
-    
+
     @override
     def visit_super(self, super: ABCExpr):
         return super().visit_super(super)
-    
+
     @override
     def visit_this(self, this: ABCExpr):
         return super().visit_this(this)
-    
+
     @override
     def visit_variable(self, variable: ABCExpr):
         return super().visit_variable(variable)
@@ -163,7 +163,7 @@ class Interpreter(visitor.Visitor):
         return_value = True
 
         if isinstance(expression, Literal):
-            if expression.value == None:
+            if expression.value is None:
                 return_value = False
             elif isinstance(expression.value, bool):
                 return expression.value

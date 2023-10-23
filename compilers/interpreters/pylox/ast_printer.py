@@ -47,8 +47,8 @@ class ASTPrinter(Visitor):
 
         return rv
 
-    #@abstractmethod
-    #def visit_assign_expr(self, assign: ABCExpr):
+    # @abstractmethod
+    # def visit_assign_expr(self, assign: ABCExpr):
     #    pass
 
     @override
@@ -57,7 +57,8 @@ class ASTPrinter(Visitor):
 
     @override
     def visit_binary_expr(self, binary: ABCExpr) -> str:
-        return self._parenthesize(binary.operator._lexeme, binary.left, binary.right)
+        return self._parenthesize(
+            binary.operator._lexeme, binary.left, binary.right)
 
     @override
     def visit_call(self, call: ABCExpr) -> str:
@@ -80,11 +81,13 @@ class ASTPrinter(Visitor):
 
     @override
     def visit_logical(self, logical: ABCExpr) -> str:
-        return self._parenthesize(logical.operator._lexeme, logical.left, logical.right)
+        return self._parenthesize(
+            logical.operator._lexeme, logical.left, logical.right)
 
     @override
     def visit_setter(self, setter: ABCExpr) -> str:
-        return self._parenthesize(setter.to_object, setter.name._lexeme, setter.value)
+        return self._parenthesize(
+            setter.to_object, setter.name._lexeme, setter.value)
 
     @override
     def visit_super(self, super: ABCExpr) -> str:
@@ -101,13 +104,12 @@ class ASTPrinter(Visitor):
     @override
     def visit_variable(self, variable: ABCExpr) -> str:
         return self._parenthesize(variable.name)
-    
-    
-    
+
+
 def main():
     expr = Binary(Unary(Token(TokenType.MINUS, '-', None, 1), Literal('256')),
-                    Token(TokenType.STAR, '*', None, 1),
-                    Grouping(Literal(42.60)))
+                  Token(TokenType.STAR, '*', None, 1),
+                  Grouping(Literal(42.60)))
     ast_printer = ASTPrinter(expr)
     ast_printer.print()
 

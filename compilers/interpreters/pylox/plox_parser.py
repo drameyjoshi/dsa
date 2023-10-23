@@ -2,13 +2,14 @@
 A parser for Lox code.
 """
 
-from typing import List 
+from typing import List
 
 from plox_token import Token
 from expr import Expr, Binary, Unary, Literal, Grouping, Variable
 from token_types import TokenType
 
 import error_handler
+
 
 class Parser:
     def __init__(self, tokens: List[Token]) -> None:
@@ -18,10 +19,10 @@ class Parser:
 
     def parse(self) -> Expr:
         return self._expression()
-    
+
     def _expression(self):
         return self._equality()
-    
+
     def _equality(self) -> Expr:
         expr = self._comparison()
 
@@ -35,13 +36,14 @@ class Parser:
     def _comparison(self) -> Expr:
         expr = self._term()
 
-        while self._match([TokenType.GT, TokenType.GTE, TokenType.LT, TokenType.LTE]):
+        while self._match([TokenType.GT, TokenType.GTE,
+                          TokenType.LT, TokenType.LTE]):
             operator = self._previous()
             right = self._term()
             expr = Binary(expr, operator, right)
 
         return expr
-    
+
     def _term(self) -> Expr:
         expr = self._factor()
 
@@ -51,7 +53,7 @@ class Parser:
             expr = Binary(expr, operator, right)
 
         return expr
-    
+
     def _factor(self) -> Expr:
         expr = self._unary()
 
@@ -73,34 +75,34 @@ class Parser:
     def _primary(self) -> Expr:
         if self._match([TokenType.FALSE]):
             return Literal(False)
-        
+
         if self._match([TokenType.TRUE]):
             return Literal(True)
-        
+
         if self._match([TokenType.NIL]):
             return Literal(None)
-        
+
         if self._match([TokenType.NUMBER, TokenType.STRING]):
             return Literal(self._previous()._literal)
-        
+
         if self._match([TokenType.IDENTIFIER]):
             return Variable(self._previous()._lexeme)
-        
+
         if self._match([TokenType.LPAREN]):
             expr = self._expression()
             if self._match([TokenType.RPAREN]):
                 self._advance()
                 return Grouping(expr)
             else:
-                error_handler.report(self._tokens[self._current]._line, 
-                                     '',                                      
+                error_handler.report(self._tokens[self._current]._line,
+                                     '',
                                      "Expecting ')' after expression.")
                 self._is_error = True
                 # To do: check if this is the best return value.
                 return None
-            
+
         error_handler.report(self._peek()._line,
-                             '',                             
+                             '',
                              'Expecting expression.')
 
     def _match(self, some_tokens: List[Token]) -> bool:
@@ -108,37 +110,37 @@ class Parser:
             if self._check(t):
                 self._advance()
                 return True
-            
+
         return False
-    
+
     def _check(self, token_type: TokenType) -> bool:
         if self._is_at_end():
             return False
         else:
             return self._peek()._ttype == token_type
-        
+
     def _advance(self) -> Token:
         if not self._is_at_end():
             self._current += 1
 
         return self._previous()
-    
+
     def _is_at_end(self) -> bool:
         return self._peek()._ttype == TokenType.EOF
-    
+
     def _peek(self) -> Token:
         return self._tokens[self._current]
-    
+
     def _previous(self) -> Token:
         return self._tokens[self._current - 1]
-    
+
     def _synchronise(self) -> None:
         self._advance()
 
         while not self._is_at_end():
             if self._previous()._ttype == TokenType.SEMICOLON:
                 return
-            
+
             if self._match([TokenType.CLASS,
                             TokenType.FUN,
                             TokenType.FOR,
@@ -148,6 +150,5 @@ class Parser:
                             TokenType.PRINT,
                             TokenType.RETURN]):
                 return
-            
-            self._advance()
 
+            self._advance()

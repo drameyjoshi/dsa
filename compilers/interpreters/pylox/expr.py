@@ -1,4 +1,4 @@
-from abc import (    
+from abc import (
     abstractmethod
 )
 from typing import List, Union
@@ -9,10 +9,12 @@ from abc_expr import ABCExpr
 
 import visitor
 
+
 class Expr(ABCExpr):
     @abstractmethod
     def accept(self, visitor: visitor.Visitor) -> str:
         pass
+
 
 class Assign(Expr):
     def __init__(self, name: Token, value: Expr):
@@ -22,6 +24,7 @@ class Assign(Expr):
     @override
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_assign_expr(self)
+
 
 class Binary(Expr):
     def __init__(self, left: Expr, operator: Token, right: Expr):
@@ -33,6 +36,7 @@ class Binary(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_binary_expr(self)
 
+
 class Call(Expr):
     def __init__(self, callee: Expr, paren: Token, args: List[Expr]):
         self.callee = callee
@@ -43,6 +47,7 @@ class Call(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_call(self)
 
+
 class Getter(Expr):
     def __init__(self, from_object: Expr, name: Token):
         self.from_object = from_object
@@ -50,6 +55,7 @@ class Getter(Expr):
 
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_getter(self)
+
 
 class Grouping(Expr):
     def __init__(self, expression: Expr):
@@ -59,6 +65,7 @@ class Grouping(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_grouping(self)
 
+
 class Literal(Expr):
     def __init__(self, value: Union[str, float, bool]):
         self.value = value
@@ -66,6 +73,7 @@ class Literal(Expr):
     @override
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_literal(self)
+
 
 class Logical(Expr):
     def __init__(self, left: Expr, operator: Token, right: Expr):
@@ -77,6 +85,7 @@ class Logical(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_logical(self)
 
+
 class Setter(Expr):
     def __init__(self, to_object: Expr, name: Token, value: Expr):
         self.to_object = to_object
@@ -87,6 +96,7 @@ class Setter(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_setter(self)
 
+
 class Super(Expr):
     def __init__(self, keyword: Token, method: Token):
         self.keyword = keyword
@@ -96,12 +106,14 @@ class Super(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_super(self)
 
+
 class This(Expr):
     def __init__(self, keyword: Token):
         self.keyword = keyword
 
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_this(self)
+
 
 class Unary(Expr):
     def __init__(self, operator: Token, right: Expr):
@@ -112,6 +124,7 @@ class Unary(Expr):
     def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_unary(self)
 
+
 class Variable(Expr):
     def __init__(self, name: Token):
         self.name = name
@@ -121,9 +134,8 @@ class Variable(Expr):
         return visitor.visit_variable(self)
 
 
-        
 Expr.register(Assign)
-Expr.register(Binary)   
+Expr.register(Binary)
 Expr.register(Call)
 Expr.register(Getter)
 Expr.register(Grouping)
@@ -132,4 +144,3 @@ Expr.register(Setter)
 Expr.register(Super)
 Expr.register(This)
 Expr.register(Unary)
-

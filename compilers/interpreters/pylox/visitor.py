@@ -5,6 +5,7 @@ from typing import Any
 
 import expr
 
+
 class Visitor(ABCVisitor):
     def __init__(self):
         pass

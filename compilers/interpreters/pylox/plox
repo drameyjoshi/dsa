@@ -7,6 +7,7 @@ from typing import List
 from plox_token import Token
 from plox_parser import Parser
 from ast_printer import ASTPrinter
+from interpreter import Interpreter
 
 def main():
     if len(sys.argv) == 1:
@@ -70,11 +71,13 @@ def process(filename: str) -> None:
 
 def process_tokens(tokens: List[Token]):
     parser = Parser(tokens)
+    expression = parser.parse()
 
-    if not parser._is_error:
-        expression = parser.parse()
-        ast_printer = ASTPrinter(expression)
+    if not parser._is_error:        
+        interpreter = Interpreter()
+        ast_printer = ASTPrinter(expr=expression)
         ast_printer.print()
+        print(interpreter.interpret(expr=expression))
     else:
         print('Syntax error.')
 

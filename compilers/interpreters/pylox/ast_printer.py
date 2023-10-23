@@ -8,7 +8,7 @@ from overrides import override
 
 
 class ASTPrinter(Visitor):
-    def __init__(self, expr: ABCExpr):
+    def __init__(self, expr: ABCExpr) -> None:
         self.expr = expr
 
     def print(self):

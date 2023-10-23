@@ -1,16 +1,17 @@
-from abc import (
-    ABC,
+from abc import (    
     abstractmethod
 )
 from typing import List, Union
 
-from visitor import Visitor
 from plox_token import Token
 from overrides import override
+from abc_expr import ABCExpr
 
-class Expr(ABC):
+import visitor
+
+class Expr(ABCExpr):
     @abstractmethod
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         pass
 
 class Assign(Expr):
@@ -19,7 +20,7 @@ class Assign(Expr):
         self.value = value
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_assign_expr(self)
 
 class Binary(Expr):
@@ -29,7 +30,7 @@ class Binary(Expr):
         self.right = right
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_binary_expr(self)
 
 class Call(Expr):
@@ -39,7 +40,7 @@ class Call(Expr):
         self.args = args
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_call(self)
 
 class Getter(Expr):
@@ -47,7 +48,7 @@ class Getter(Expr):
         self.from_object = from_object
         self.name = name
 
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_getter(self)
 
 class Grouping(Expr):
@@ -55,7 +56,7 @@ class Grouping(Expr):
         self.expression = expression
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_grouping(self)
 
 class Literal(Expr):
@@ -63,7 +64,7 @@ class Literal(Expr):
         self.value = value
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_literal(self)
 
 class Logical(Expr):
@@ -73,7 +74,7 @@ class Logical(Expr):
         self.right = right
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_logical(self)
 
 class Setter(Expr):
@@ -83,7 +84,7 @@ class Setter(Expr):
         self.value = value
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_setter(self)
 
 class Super(Expr):
@@ -92,14 +93,14 @@ class Super(Expr):
         self.method = method
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_super(self)
 
 class This(Expr):
     def __init__(self, keyword: Token):
         self.keyword = keyword
 
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_this(self)
 
 class Unary(Expr):
@@ -108,7 +109,7 @@ class Unary(Expr):
         self.right = right
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_unary(self)
 
 class Variable(Expr):
@@ -116,7 +117,7 @@ class Variable(Expr):
         self.name = name
 
     @override
-    def accept(self, visitor: Visitor) -> str:
+    def accept(self, visitor: visitor.Visitor) -> str:
         return visitor.visit_variable(self)
 
 
@@ -131,4 +132,4 @@ Expr.register(Setter)
 Expr.register(Super)
 Expr.register(This)
 Expr.register(Unary)
-Expr.register(Visitor)
+

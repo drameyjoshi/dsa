@@ -11,6 +11,15 @@ var board = [][]string{
 	{"-", "-", "-"},
 }
 
+type Coordinates struct {
+	x, y int
+}
+
+var points = []Coordinates{
+	{0, 0}, {0, 1}, {0, 2},
+	{1, 0}, {1, 1}, {1, 2},
+	{2, 0}, {2, 1}, {2, 2}}
+
 func showBoard() {
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%s\n", strings.Join(board[i], " "))
@@ -21,43 +30,48 @@ func checkIfValidEntry(i, j int) bool {
 	return board[i][j] == "x" || board[i][j] == "o"
 }
 
+func checkIfEqual(i1, i2, i3 int) bool {
+	p1 := points[i1]
+	p2 := points[i2]
+	p3 := points[i3]
+
+	return board[p1.x][p1.y] == board[p2.x][p2.y] && board[p2.x][p2.y] == board[p3.x][p3.y]
+}
+
 func proceed() (bool, string) {
 	result := true
 	winner := ""
 
 	if checkIfValidEntry(0, 0) {
-		if (board[0][0] == board[0][1] && board[0][1] == board[0][2]) ||
-			(board[0][0] == board[1][0] && board[1][0] == board[2][0]) ||
-			(board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+		if checkIfEqual(0, 1, 2) || checkIfEqual(0, 3, 6) || checkIfEqual(0, 4, 8) {
 			result = false
 			winner = board[0][0]
 		}
 	}
 
 	if result && checkIfValidEntry(0, 1) {
-		if board[0][1] == board[1][1] && board[1][1] == board[2][1] {
+		if checkIfEqual(1, 4, 7) {
 			result = false
 			winner = board[0][1]
 		}
 	}
 
 	if result && checkIfValidEntry(0, 2) {
-		if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) ||
-			(board[0][2] == board[1][2] && board[1][2] == board[2][2]) {
+		if checkIfEqual(2, 4, 6) || checkIfEqual(2, 5, 8) {
 			result = false
 			winner = board[0][2]
 		}
 	}
 
 	if result && checkIfValidEntry(1, 0) {
-		if board[1][0] == board[1][1] && board[1][1] == board[1][2] {
+		if checkIfEqual(3, 4, 5) {
 			result = false
 			winner = board[1][0]
 		}
 	}
 
 	if result && checkIfValidEntry(2, 0) {
-		if board[2][0] == board[2][1] && board[2][1] == board[2][2] {
+		if checkIfEqual(6, 7, 8) {
 			result = false
 			winner = board[2][0]
 		}

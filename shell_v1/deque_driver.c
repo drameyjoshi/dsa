@@ -22,7 +22,7 @@ void manualTest()
 
     printf("Enter strings to be added to the deque.\n");
     printf("To stop, enter quit.\n");
-    Deque *dp = createDeque();
+    Deque *dp = createDeque(4);
 
     while (proceed) {
         printf("Enter a string: ");
@@ -37,6 +37,10 @@ void manualTest()
 
     printDeque(dp);
     destroyDeque(dp);
+}
+
+void filesTest()
+{
 }
 
 int main(int argc, char* argv[])

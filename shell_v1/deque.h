@@ -9,9 +9,10 @@ struct Node {
 typedef struct {
     struct Node *head;
     unsigned int nItems;
+    unsigned int capacity;
 } Deque;
 
-Deque *createDeque();
+Deque *createDeque(unsigned int capacity);
 int addItem(char* item, Deque* dp);
 void destroyDeque(Deque* dp);
 #endif

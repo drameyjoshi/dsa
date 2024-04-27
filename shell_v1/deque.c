@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const int BUFSIZE = 4;
-
 static struct Node* createNode(char* item)
 {
     struct Node* pn = (struct Node*)malloc(sizeof(struct Node));
@@ -38,13 +36,14 @@ static void freeNode(struct Node* pn)
     }
 }
 
-Deque* createDeque()
+Deque* createDeque(unsigned int capacity)
 {
     Deque* pd = (Deque *)malloc(sizeof(Deque));
 
     if (pd != NULL) {
         pd->head = NULL;
         pd->nItems = 0;
+        pd->capacity = capacity;
     }
     // To do: log error,
     
@@ -70,7 +69,7 @@ int addItem(char* item, Deque* dp)
                 curr->next = pn;
                 dp->nItems += 1;
 
-                if (dp->nItems > BUFSIZE) {
+                if (dp->nItems > dp->capacity) {
                     struct Node* prevHead = dp->head;
                     dp->head = dp->head->next;
                     dp->nItems -= 1;

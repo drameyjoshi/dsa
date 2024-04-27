@@ -11,6 +11,10 @@
 
 #define MAXLINE (4096)
 
+/*
+ * This code is taken from W. Richard Stevens' book "Advanced Unix Programming"
+ * except for minor changes in variable and function names.
+ */
 static void print(int errFlag, int errnum, const char* fmt, va_list ap)
 {
     char buf[MAXLINE];

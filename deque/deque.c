@@ -1,7 +1,6 @@
 #include "deque.h"
 #include "logger.h"
 
-#include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,11 +19,11 @@ static struct Node* createNode(char* item)
             pn->next = NULL;
         } else {
             free(pn);
-            logError(errno, "Unable to allocate memory to store item.");
+            error("Unable to allocate memory to store item.");
             pn = NULL;
         }
     } else {
-        logError(errno, "Unable to allocate memory to create deque node.");
+        error("Unable to allocate memory to create deque node.");
     }
 
     return pn;
@@ -48,7 +47,7 @@ Deque* createDeque(unsigned int capacity)
         pd->nItems = 0;
         pd->capacity = capacity;
     } else {
-        logError(errno, "Unable to allocate memory to create deque.");
+        error("Unable to allocate memory to create deque.");
     }
     
     return pd;

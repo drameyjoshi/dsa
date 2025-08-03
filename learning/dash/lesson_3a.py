@@ -59,9 +59,9 @@ def assemble() -> dbc.Container:
 
 
 @callback(
-    outputs=[Output(component_id="graph", component_property="figure")],
-    inputs=[Input(component_id="choices", component_property="value"),
-            Input(component_id="data", component_property="data")]
+    Output(component_id="graph", component_property="figure"),
+    Input(component_id="choices", component_property="value"),
+    Input(component_id="data", component_property="data")
 )
 def update_graph(col_chosen: str,
                  json_df: dict) -> plotly.graph_objects.Figure:

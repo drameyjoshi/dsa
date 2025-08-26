@@ -29,11 +29,10 @@ if args.file:
             pwd = getpass.getpass(prompt=f"Password for {args.file}:")
             reader.decrypt(pwd)
 
-        writer = PdfWriter(clone_from=reader)
         FNAME = f"{os.path.basename(args.file).split('.')[0]}_decrypted.pdf"
         logger.info("%s is decrypted to %s.", args.file, FNAME)
         with open(FNAME, "wb") as f:
-            writer.write(f)
+            PdfWriter(clone_from=reader).write(f)
     else:
         logger.warning(
             "The directory %s does not exist or is not readable.",

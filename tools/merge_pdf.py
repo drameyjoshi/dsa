@@ -29,7 +29,7 @@ if args.dir:
         merger = PdfWriter()
         _ = [
             merger.append(pdf) for pdf in [
-                f for f in os.listdir(
+                os.path.join(args.dir, f) for f in os.listdir(
                     args.dir) if f.lower().endswith(".pdf")]]
         output = args.output or "merged.pdf"
         logger.info("Combining PDFs into %s.", output)

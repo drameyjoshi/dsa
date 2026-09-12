@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+status=`on_ac_power`
+
+if [[ $status -eq 0 ]] then
+    echo "On AC power."
+else
+    echo "On battery."
+fi
+
+echo
+echo "acpi status:"
+acpi -b
